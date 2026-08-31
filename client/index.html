@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SAFE - Smart Female Period & Care Intelligence</title>
+    
+    <!-- PWA & Mobile App Meta Tags -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#d49a5b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="SAFE App">
+    <link rel="apple-touch-icon" href="/icon.svg">
+    <link rel="icon" type="image/svg+xml" href="/icon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Active Theme Palette Colors (Default: Executive Gold) */
+            --primary: #d49a5b;
+            --primary-light: #f59e0b;
+            --primary-dark: #b45309;
+            --primary-glow: rgba(212, 154, 91, 0.28);
+            --primary-gradient: linear-gradient(135deg, #d49a5b 0%, #f59e0b 50%, #b45309 100%);
+            --theme-glow: 0 8px 25px rgba(212, 154, 91, 0.15);
+
+            /* Light Mode Surface Colors */
+            --bg-main: #fdfbf7;
+            --bg-pattern: radial-gradient(#e8ddcb 0.8px, transparent 0.8px);
+            --surface: #ffffff;
+            --surface-hover: #faf6ef;
+            --surface-elevated: #ffffff;
+            --text-primary: #1e1b2e;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border-color: #ebdcc9;
+            --border-subtle: #f7efe4;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --header-border: #ebdcc9;
+            --bottom-nav-bg: rgba(255, 255, 255, 0.98);
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.02);
+            --card-shadow-hover: 0 18px 40px -8px var(--primary-glow);
+            --input-bg: #fdfcf9;
+            --bot-bubble-bg: #ffffff;
+            --bot-bubble-border: #ebdcc9;
+            --bot-bubble-text: #1e1b2e;
+            --table-hover: #faf6ef;
+            --badge-bg: rgba(212, 154, 91, 0.15);
+            --alert-bg: #fffbf0;
+            --alert-border: #fde68a;
+            --alert-text: #92400e;
+            --cal-day-bg: #ffffff;
+            --cal-day-hover: #faf5eb;
+            --success: #10b981;
+            --danger: #ef4444;
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            --bg-main: #0a0e14;
+            --bg-pattern: radial-gradient(#2d3748 0.8px, transparent 0.8px);
+            --surface: #141a24;
+            --surface-hover: #1c2432;
+            --surface-elevated: #18202d;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #2b3546;
+            --border-subtle: #1c2432;
+            --header-bg: rgba(20, 26, 36, 0.95);
+            --header-border: #2b3546;
+            --bottom-nav-bg: rgba(20, 26, 36, 0.98);
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.05);
+            --card-shadow-hover: 0 18px 40px -8px rgba(0, 0, 0, 0.7), 0 0 25px var(--primary-glow);
+            --input-bg: #0d121a;
+            --bot-bubble-bg: #18202d;
+            --bot-bubble-border: #2b3546;
+            --bot-bubble-text: #f8fafc;
+            --table-hover: #1c2432;
+            --badge-bg: rgba(212, 154, 91, 0.22);
+            --alert-bg: rgba(212, 154, 91, 0.12);
+            --alert-border: rgba(212, 154, 91, 0.35);
+            --alert-text: #fde68a;
+            --cal-day-bg: #18202d;
+            --cal-day-hover: #222c3e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            font-family: 'Cairo', 'Outfit', sans-serif;
+            background-image: var(--bg-pattern);
+            background-size: 20px 20px;
+            padding-bottom: 75px;
+        }
+
+        body.lang-en, body.lang-fr, body.lang-de, body.lang-sw {
+            font-family: 'Outfit', 'Cairo', sans-serif;
+        }
+
+        .icon {
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            vertical-align: middle;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .icon-lg { width: 24px; height: 24px; }
+
+        /* Header */
+        header {
+            background: var(--header-bg);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--header-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-gradient);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 6px 16px var(--primary-glow);
+            flex-shrink: 0;
+        }
+
+        .brand-text h1 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            font-family: 'Playfair Display', 'Cairo', serif;
+        }
+        .brand-text span { font-size: 0.75rem; color: var(--text-secondary); display: block; }
+        .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+        /* 5-Theme Color Palette Picker Dots */
+        .theme-palette-picker {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--surface);
+            padding: 4px 8px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .color-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .color-dot:hover { transform: scale(1.2); }
+        .color-dot.active {
+            border-color: var(--text-primary);
+            transform: scale(1.22);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+        }
+
+        /* 5-Language Switcher Pills */
+        .lang-pills-bar {
+            display: flex;
+            align-items: center;
+            background: var(--surface-hover);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 3px 5px;
+            gap: 4px;
+        }
+
+        .lang-pill {
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: none;
+            background: transparent;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .lang-pill:hover {
+            color: var(--primary);
+            background: var(--surface);
+        }
+
+        .lang-pill.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 2px 8px var(--primary-glow);
+        }
+
+        .btn-header-action {
+            padding: 7px 12px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-primary); font-size: 0.82rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px;
+        }
+
+        .btn-install-app {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 14px var(--primary-glow);
+            animation: pulseInstall 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseInstall { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+
+        .btn-header-action.has-alert {
+            background: var(--alert-bg); border-color: var(--primary); color: var(--primary); animation: pulseNotify 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseNotify { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        .btn-header-action:hover {
+            background: var(--surface-hover); border-color: var(--primary); color: var(--primary);
+        }
+
+        .user-pill {
+            display: flex; align-items: center; gap: 6px; background: var(--surface-hover); padding: 6px 14px; border-radius: 30px; border: 1px solid var(--border-color); font-size: 0.82rem; font-weight: 700; color: var(--primary-dark); cursor: pointer;
+        }
+        body.dark-mode .user-pill { color: var(--primary-light); }
+
+        .btn-logout {
+            padding: 5px 12px; border-radius: 20px; background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;
+        }
+        body.dark-mode .btn-logout { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
+
+        .container {
+            max-width: 1280px; width: 100%; margin: 0 auto; padding: 20px 16px; flex: 1; display: flex; flex-direction: column; gap: 20px;
+        }
+
+        /* 📱 Mobile App Bottom Navigation Bar */
+        .mobile-bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--bottom-nav-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+            z-index: 900;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-secondary); font-size: 0.72rem; font-weight: 700; background: transparent; border: none; cursor: pointer; padding: 4px 8px; border-radius: 12px; flex: 1;
+        }
+        .nav-item .icon { width: 20px; height: 20px; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item.active .icon { stroke: var(--primary); transform: translateY(-2px); }
+
+        @media (max-width: 768px) {
+            .desktop-tabs { display: none !important; }
+            .theme-palette-picker { display: none; }
+        }
+        @media (min-width: 769px) {
+            .mobile-bottom-nav { display: none !important; }
+            body { padding-bottom: 20px; }
+        }
+
+        /* 💌 Executive Affirmation Box */
+        .encouragement-card {
+            background: linear-gradient(135deg, rgba(212, 154, 91, 0.14), rgba(245, 158, 11, 0.1));
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .affirmation-content { display: flex; align-items: center; gap: 14px; }
+        .affirmation-icon {
+            font-size: 28px; width: 46px; height: 46px; border-radius: 14px; background: var(--surface); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px var(--primary-glow); flex-shrink: 0;
+        }
+        .affirmation-text { font-size: 0.98rem; font-weight: 700; color: var(--text-primary); line-height: 1.5; }
+        .affirmation-sub { font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px; }
+
+        .btn-new-affirmation {
+            padding: 8px 18px; background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--primary); font-weight: 800; font-size: 0.84rem; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .btn-new-affirmation:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* 🌸 Smart Alerts Banner */
+        .notification-alert-box {
+            background: var(--alert-bg);
+            border: 2px solid var(--alert-border);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            display: none;
+            box-shadow: var(--theme-glow);
+            cursor: pointer;
+        }
+
+        .alert-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .alert-badge {
+            background: var(--primary-gradient); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.76rem; font-weight: 800; display: inline-flex; align-items: center; gap: 4px;
+        }
+        .alert-title { font-size: 1.1rem; font-weight: 800; color: var(--alert-text); }
+        .alert-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+        .checklist-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; background: var(--surface); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);
+        }
+        .check-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-primary); font-weight: 600; }
+        .check-item input[type="checkbox"] { accent-color: var(--primary); width: 17px; height: 17px; cursor: pointer; }
+
+        /* 🌿 Irregular Cycle Support Card */
+        .irregular-support-box {
+            background: linear-gradient(135deg, rgba(212, 154, 91, 0.15), rgba(245, 158, 11, 0.08));
+            border: 1px solid var(--primary);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: none;
+            box-shadow: var(--card-shadow);
+        }
+        .irregular-support-title { font-size: 1.05rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .irregular-support-text { font-size: 0.88rem; line-height: 1.65; color: var(--text-primary); margin-bottom: 12px; }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(8px); z-index: 999; display: none; align-items: center; justify-content: center; padding: 16px;
+        }
+
+        .modal-card {
+            background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalPop { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .modal-header {
+            padding: 18px 20px; background: linear-gradient(135deg, var(--primary-glow), rgba(245, 158, 11, 0.08)); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;
+        }
+        .modal-header h3 { font-size: 1.1rem; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+        .btn-close-modal { background: transparent; border: none; font-size: 1.3rem; color: var(--text-secondary); cursor: pointer; padding: 4px 8px; border-radius: 8px; }
+        .modal-body { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
+
+        .notify-status-box {
+            background: var(--surface-hover); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .btn-notify-action {
+            padding: 8px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; cursor: pointer; border: none; display: flex; align-items: center; gap: 6px;
+        }
+        .btn-notify-enable { background: var(--primary-gradient); color: white; box-shadow: 0 4px 12px var(--primary-glow); }
+        .btn-notify-test { background: var(--surface); border: 1px solid var(--border-color); color: var(--primary); }
+
+        /* Toast */
+        .toast-notification {
+            position: fixed; bottom: 85px; right: 20px; background: var(--surface); border: 2px solid var(--primary); border-radius: var(--radius-md); padding: 16px 20px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25); z-index: 9999; display: none; max-width: 380px; animation: slideInToast 0.3s ease;
+        }
+        [dir="rtl"] .toast-notification { right: auto; left: 20px; }
+        @keyframes slideInToast { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .toast-title { font-size: 0.95rem; font-weight: 800; color: var(--primary); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .toast-body { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+
+        /* Desktop Tabs */
+        .desktop-tabs {
+            display: flex; gap: 8px; background: var(--surface); padding: 8px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--card-shadow); overflow-x: auto;
+        }
+        .tab-btn {
+            flex: 1; min-width: 130px; padding: 11px 14px; border: none; background: transparent; color: var(--text-secondary); font-size: 0.88rem; font-weight: 700; border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap;
+        }
+        .tab-btn:hover { color: var(--primary); background: var(--surface-hover); }
+        .tab-btn.active {
+            background: var(--primary-gradient); color: white; box-shadow: 0 6px 18px var(--primary-glow);
+        }
+        .tab-btn.active .icon { stroke: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Calendar */
+        .calendar-card { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--card-shadow); }
+        .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); }
+        .calendar-month-title { font-size: 1.15rem; font-weight: 900; color: var(--text-primary); font-family: 'Playfair Display', 'Cairo', serif; }
+        .cal-nav-btn {
+            padding: 7px 14px; background: var(--surface-hover); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.82rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px;
+        }
+        .cal-nav-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+        .cal-day-header { text-align: center; font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); padding: 8px 0; }
+        .cal-day-cell {
+            min-height: 70px; background: var(--cal-day-bg); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 6px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; position: relative;
+        }
+        .cal-day-cell:hover { background: var(--cal-day-hover); border-color: var(--primary); transform: translateY(-2px); }
+        .cal-day-cell.empty { background: transparent; border-color: transparent; cursor: default; }
+        .cal-day-num { font-size: 0.9rem; font-weight: 800; color: var(--text-primary); }
+
+        .cal-badge { font-size: 0.68rem; padding: 2px 5px; border-radius: 6px; font-weight: 700; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 3px; }
+        .cal-badge-period { background: #e85d75; color: white; }
+        .cal-badge-ovulation { background: var(--primary-gradient); color: white; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
+        .cal-badge-fertile { background: rgba(212, 154, 91, 0.2); color: var(--primary); border: 1px dashed var(--primary); }
+        .cal-badge-predicted { background: var(--surface-hover); color: var(--primary); border: 1px dashed var(--primary); }
+
+        .calendar-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--border-color); font-size: 0.8rem; font-weight: 700; }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 4px; }
+
+        /* Selectors */
+        .selector-box { background: var(--surface-hover); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px 18px; margin-top: 12px; }
+        .flow-chips-grid, .location-chips-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+        .flow-chip, .location-chip {
+            padding: 7px 12px; background: var(--surface); border: 1px solid var(--border-color); border-radius: 20px; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); cursor: pointer; user-select: none; display: flex; align-items: center; gap: 5px;
+        }
+        .flow-chip.selected, .location-chip.selected { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 2px 8px var(--primary-glow); }
+
+        .pain-slider-row { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+        .pain-slider { flex: 1; height: 8px; accent-color: var(--primary); cursor: pointer; }
+        .pain-emoji-badge {
+            font-size: 1.2rem; padding: 4px 10px; background: var(--surface); border: 1px solid var(--border-color); border-radius: 20px; font-weight: 800; color: var(--primary); min-width: 80px; text-align: center;
+        }
+
+        /* Profile Mini Grid */
+        .profile-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 10px; }
+        .profile-stat-box { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 10px; text-align: center; }
+        .profile-stat-val { font-size: 1.2rem; font-weight: 900; color: var(--primary); }
+        .profile-stat-label { font-size: 0.74rem; color: var(--text-secondary); margin-top: 2px; }
+
+        /* Grid */
+        .chat-grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
+        @media (max-width: 900px) { .chat-grid { grid-template-columns: 1fr; } }
+        .chat-box { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 600px; overflow: hidden; }
+        .chat-box-header { padding: 16px 20px; background: linear-gradient(135deg, var(--primary-glow), rgba(245, 158, 11, 0.05)); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; }
+        .chat-box-header h2 { font-size: 1rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 6px; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+        .msg-bubble { max-width: 86%; padding: 12px 16px; border-radius: 18px; font-size: 0.92rem; line-height: 1.6; position: relative; word-break: break-word; }
+        .msg-bubble.bot { align-self: flex-start; background: var(--bot-bubble-bg); color: var(--bot-bubble-text); border: 1px solid var(--bot-bubble-border); border-bottom-right-radius: 4px; box-shadow: var(--card-shadow); }
+        .msg-bubble.user { align-self: flex-end; background: var(--primary-gradient); color: white; border-bottom-left-radius: 4px; box-shadow: 0 6px 18px var(--primary-glow); }
+        .saved-data-card { margin-top: 10px; padding: 12px; border-radius: 12px; background: var(--surface-hover); border: 1px solid var(--border-color); font-size: 0.85rem; line-height: 1.6; }
+        .saved-data-card .title { font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+
+        .quick-prompts { display: flex; gap: 6px; padding: 8px 12px; background: var(--surface-hover); border-top: 1px solid var(--border-color); overflow-x: auto; }
+        .prompt-chip { white-space: nowrap; padding: 6px 14px; border-radius: 20px; background: var(--surface); border: 1px solid var(--border-color); font-size: 0.78rem; font-weight: 700; color: var(--primary); cursor: pointer; }
+        .prompt-chip:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .chat-input-bar { padding: 12px 16px; background: var(--surface); border-top: 1px solid var(--border-color); display: flex; gap: 10px; }
+        .chat-input-bar input { flex: 1; padding: 10px 16px; border-radius: 30px; border: 1px solid var(--border-color); outline: none; font-size: 0.92rem; background: var(--input-bg); color: var(--text-primary); }
+        .chat-input-bar input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+        .btn-send { padding: 0 20px; background: var(--primary-gradient); color: white; border: none; border-radius: 30px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 6px 18px var(--primary-glow); }
+
+        .side-panel { display: flex; flex-direction: column; gap: 18px; }
+        .card { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border-color); padding: 20px; box-shadow: var(--card-shadow); }
+        .card:hover { box-shadow: var(--card-shadow-hover); }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+        .card-header h3 { font-size: 1rem; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 6px; }
+        .stat-item { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px dashed var(--border-color); font-size: 0.88rem; }
+        .stat-item:last-child { border-bottom: none; }
+        .stat-label { color: var(--text-secondary); }
+        .stat-val { font-weight: 800; color: var(--text-primary); }
+
+        /* Care Hub Cards */
+        .med-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 12px; }
+        .med-card { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; gap: 8px; }
+        .med-card-badge { align-self: flex-start; padding: 3px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 800; background: var(--badge-bg); color: var(--primary); }
+        .med-card h4 { font-size: 1.05rem; font-weight: 800; color: var(--text-primary); }
+        .med-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; }
+        .med-card .caution { font-size: 0.76rem; color: var(--primary); font-weight: 700; margin-top: 2px; }
+
+        /* Table */
+        .table-card { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border-color); padding: 20px; box-shadow: var(--card-shadow); }
+        .table-responsive { overflow-x: auto; margin-top: 12px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        [dir="rtl"] table { text-align: right; }
+        [dir="ltr"] table { text-align: left; }
+        th { background: var(--surface-hover); padding: 12px 14px; color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--border-color); }
+        td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+        tr:hover td { background-color: var(--table-hover); }
+
+        .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; }
+        .badge-primary { background: var(--badge-bg); color: var(--primary); }
+        .badge-gold { background: var(--primary-gradient); color: white; }
+        .badge-success { background: rgba(16, 185, 129, 0.18); color: var(--success); }
+
+        .btn-action {
+            padding: 7px 14px; background: var(--surface-hover); border: 1px solid var(--border-color); color: var(--primary); border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-size: 0.82rem;
+        }
+        .btn-action:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .btn-delete {
+            padding: 4px 10px; background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 8px; cursor: pointer; font-size: 0.76rem; font-weight: 700; display: inline-flex; align-items: center; gap: 3px;
+        }
+        body.dark-mode .btn-delete { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
+
+        /* Auth View */
+        .auth-container { max-width: 480px; width: 100%; margin: 30px auto; background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--card-shadow); overflow: hidden; }
+        .auth-header { background: linear-gradient(135deg, var(--primary-glow), rgba(245, 158, 11, 0.12)); padding: 24px; text-align: center; border-bottom: 1px solid var(--border-color); }
+        .auth-header h2 { font-size: 1.3rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 4px; font-family: 'Playfair Display', 'Cairo', serif; }
+        body.dark-mode .auth-header h2 { color: var(--primary-light); }
+        .auth-tabs { display: flex; border-bottom: 1px solid var(--border-color); }
+        .auth-tab-btn { flex: 1; padding: 12px; background: transparent; border: none; font-size: 0.92rem; font-weight: 700; color: var(--text-secondary); cursor: pointer; text-align: center; }
+        .auth-tab-btn.active { color: var(--primary); border-bottom: 3px solid var(--primary); background: var(--surface-hover); }
+        .auth-body { padding: 24px; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+        .form-group label { font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); }
+        .form-control { padding: 11px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); outline: none; font-size: 0.92rem; background: var(--input-bg); color: var(--text-primary); }
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+        .btn-primary { width: 100%; padding: 12px; background: var(--primary-gradient); color: white; border: none; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.95rem; cursor: pointer; box-shadow: 0 6px 18px var(--primary-glow); display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+        .quick-demos { margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--border-color); display: flex; flex-direction: column; gap: 7px; }
+        .demo-btn { padding: 8px 12px; background: var(--surface-hover); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.8rem; font-weight: 600; cursor: pointer; color: var(--primary); text-align: center; }
+        .demo-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        footer { margin-top: auto; text-align: center; padding: 18px; font-size: 0.8rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); background: var(--surface); }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="brand">
+            <div class="brand-logo">
+                <svg class="icon icon-lg" viewBox="0 0 24 24" stroke="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="white"></path></svg>
+            </div>
+            <div class="brand-text">
+                <h1 data-i18n="appTitle">SAFE Health</h1>
+                <span data-i18n="appSubtitle">Period, Bleeding Flow & Care Intelligence</span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <!-- 🎨 5-Theme Color Palette Switcher (Restored) -->
+            <div class="theme-palette-picker" title="Change Theme Color / تغيير ألوان الموقع">
+                <div class="color-dot active" id="dot_gold" style="background:#d49a5b;" onclick="setThemeColor('gold', event)" title="Executive Gold (الذهبي الفاخر)"></div>
+                <div class="color-dot" id="dot_rose" style="background:#e85d75;" onclick="setThemeColor('rose', event)" title="Rose Pink (الوردي اللطيف)"></div>
+                <div class="color-dot" id="dot_purple" style="background:#8b5cf6;" onclick="setThemeColor('purple', event)" title="Royal Purple (البنفسجي الملكي)"></div>
+                <div class="color-dot" id="dot_teal" style="background:#06b6d4;" onclick="setThemeColor('teal', event)" title="Ocean Teal (الأزرق الفيروزي)"></div>
+                <div class="color-dot" id="dot_emerald" style="background:#10b981;" onclick="setThemeColor('emerald', event)" title="Emerald Green (الأخضر الزمردي)"></div>
+            </div>
+
+            <!-- 🌐 5-Language Switcher Pills -->
+            <div class="lang-pills-bar">
+                <button class="lang-pill active" id="langBtn_ar" onclick="switchAppLang('ar')">🇸🇦 عربي</button>
+                <button class="lang-pill" id="langBtn_en" onclick="switchAppLang('en')">🇬🇧 EN</button>
+                <button class="lang-pill" id="langBtn_fr" onclick="switchAppLang('fr')">🇫🇷 FR</button>
+                <button class="lang-pill" id="langBtn_de" onclick="switchAppLang('de')">🇩🇪 DE</button>
+                <button class="lang-pill" id="langBtn_sw" onclick="switchAppLang('sw')">🇹🇿 SW</button>
+            </div>
+
+            <!-- 📲 Install App Button (PWA) -->
+            <button class="btn-header-action btn-install-app" id="btnInstallApp" onclick="installPWA()" style="display: none;">
+                📲 <span data-i18n="btnInstall">تثبيت التطبيق</span>
+            </button>
+
+            <!-- Health Profile / BMI Button -->
+            <button class="btn-header-action" onclick="openProfileModal()" title="Health Profile & BMI">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span data-i18n="btnProfile">الملف</span>
+            </button>
+
+            <!-- 🌐 Share App / Other Devices Button -->
+            <button class="btn-header-action" onclick="openShareModal()" title="Share & Open on Other Devices / مشاركة التطبيق للأجهزة الأخرى">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                <span data-i18n="btnShare">مشاركة</span>
+            </button>
+
+            <!-- Dark / Light Mode -->
+            <button class="btn-header-action" onclick="toggleDarkMode()" title="Dark/Light Mode">
+                <span id="themeIcon">🌙</span>
+            </button>
+
+            <!-- User Pill & Logout -->
+            <div id="headerAuthSection" style="display: flex; align-items: center; gap: 6px;">
+                <div class="user-pill" id="userPill" onclick="openProfileModal()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span id="headerUserName">Sarah</span>
+                </div>
+                <button class="btn-logout" onclick="logout()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- In-App Toast Notification -->
+    <div class="toast-notification" id="toastNotification">
+        <div class="toast-title">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span id="toastTitleText">🌸 تنبيه الاستعداد للدورة</span>
+        </div>
+        <div class="toast-body" id="toastBodyText">
+            متبقي أيام قليلة على موعد دورتكِ القادمة 💕 جهزي الفوط وريحي جسمكِ
+        </div>
+    </div>
+
+    <!-- 👤 Health Profile Modal -->
+    <div class="modal-overlay" id="profileModal" onclick="closeProfileModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span data-i18n="profileModalTitle">👤 ملفكِ الصحي ومؤشرات الجسم (العمر، الوزن، الطول)</span>
+                </h3>
+                <button class="btn-close-modal" onclick="closeProfileModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="saveProfileData(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label data-i18n="labelAge">العمر (سنة):</label>
+                            <input type="number" id="profAge" class="form-control" placeholder="24" min="10" max="80">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="labelWeight">الوزن (كجم):</label>
+                            <input type="number" id="profWeight" class="form-control" placeholder="60" step="0.5" min="25" max="250" oninput="calculateLiveBMI()">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="labelHeight">الطول (سم):</label>
+                            <input type="number" id="profHeight" class="form-control" placeholder="165" min="100" max="220" oninput="calculateLiveBMI()">
+                        </div>
+                    </div>
+
+                    <div class="profile-stat-grid">
+                        <div class="profile-stat-box">
+                            <div class="profile-stat-val" id="profBmiDisplay">22.0</div>
+                            <div class="profile-stat-label" data-i18n="statBmiLabel">مؤشر كتلة الجسم (BMI)</div>
+                        </div>
+                        <div class="profile-stat-box">
+                            <div class="profile-stat-val" id="profBmiCategory" style="font-size: 0.95rem; color: var(--success);">مثالي ومتوازن</div>
+                            <div class="profile-stat-label" data-i18n="statHormonalHealth">أثر مؤشر الجسم على الهرمونات</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 16px;">
+                        <button type="submit" class="btn-primary">
+                            <span data-i18n="btnSaveProfile">حفظ وتحديث مؤشرات الجسم</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔔 Interactive Notifications Modal -->
+    <div class="modal-overlay" id="notificationsModal" onclick="closeNotificationsModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span data-i18n="modalNotifyTitle">🔔 مركز التنبيهات الذكية (الدورة والتبويض)</span>
+                </h3>
+                <button class="btn-close-modal" onclick="closeNotificationsModal()">✕</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="notify-status-box">
+                    <div class="notify-status-info">
+                        <h4 data-i18n="modalStatusTitle">نظام التنبيهات الذكي للدورة والتبويض</h4>
+                        <p id="modalStatusDesc" style="font-size: 0.8rem; color: var(--text-secondary);" data-i18n="modalStatusDesc">ينبهكِ تلقائياً قبل 5 أيام من موعد الدورة القادمة وأيضاً عند بدء نافذة التبويض والخصوبة.</p>
+                    </div>
+                    <button class="btn-notify-action btn-notify-enable" id="modalEnableBtn" onclick="enablePushNotifications()">
+                        <span id="modalEnableBtnText">🔔 تفعيل التنبيهات</span>
+                    </button>
+                </div>
+
+                <div class="card" style="border-left: 4px solid var(--primary); background: var(--surface-hover);">
+                    <div style="font-weight: 800; font-size: 0.92rem; color: var(--primary); margin-bottom: 4px;" id="modalAlertHeading">
+                        🌸 توقعات دورتكِ الحالية:
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" id="modalAlertMessage">
+                        يتم حساب موعد دورتكِ القادمة والتبويض بدقة وفق المتوسط المرجح...
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--surface); border: 1px dashed var(--border-color); border-radius: var(--radius-sm);">
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.88rem;" data-i18n="testAlertTitle">تجربة إرسال إشعار فوري:</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);" data-i18n="testAlertSub">أرسلي إشعاراً تجريبياً بصوت لطيف للتأكد من عمل التنبيهات</div>
+                    </div>
+                    <button class="btn-notify-action btn-notify-test" onclick="sendTestNotification()">
+                        ⚡ <span data-i18n="btnSendTest">إرسال إشعار تجريبي</span>
+                    </button>
+                </div>
+
+                <div>
+                    <h4 style="font-size: 0.9rem; font-weight: 800; margin-bottom: 8px;" data-i18n="modalChecklistTitle">
+                        🎒 قائمة العناية والاستعداد الحالية:
+                    </h4>
+                    <div class="checklist-grid" id="modalChecklistGrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🌐 Share App & Other Devices Modal -->
+    <div class="modal-overlay" id="shareModal" onclick="closeShareModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    <span data-i18n="modalShareTitle">🌐 فتح ومشاركة التطبيق على الموبايل والأجهزة الأخرى</span>
+                </h3>
+                <button class="btn-close-modal" onclick="closeShareModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center;">
+                    <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 12px;" data-i18n="shareSubtitle">
+                        يمكن لأي هاتف ذكي (iPhone / Android) أو تابلت أو كمبيوتر متصل بنفس شبكة الـ Wi-Fi فتح واستخدام التطبيق فوراً وتثبيته كبرنامج مستقل!
+                    </p>
+                    
+                    <!-- QR Code & URL Box -->
+                    <div style="background: var(--surface-hover); border: 2px dashed var(--primary); border-radius: var(--radius-md); padding: 18px; display: inline-flex; flex-direction: column; align-items: center; gap: 12px; max-width: 100%;">
+                        <img id="shareQrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=http://192.168.1.20:3000" alt="Scan QR Code" style="border-radius: 12px; width: 170px; height: 170px; background: white; padding: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                        <div style="font-size: 0.8rem; font-weight: 800; color: var(--primary);">📲 امسحي الكود بكاميرا الموبايل لفتح التطبيق مباشرة</div>
+                        
+                        <div style="display: flex; gap: 6px; width: 100%; max-width: 360px;">
+                            <input type="text" id="shareUrlInput" class="form-control" value="http://192.168.1.20:3000" readonly style="font-weight: 700; text-align: center; font-size: 0.9rem;">
+                            <button class="btn-action" onclick="copyShareUrl()" style="white-space: nowrap;">📋 نسخ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checklist-grid" style="grid-template-columns: 1fr;">
+                    <div class="check-item">
+                        <span>📱</span>
+                        <span><strong>على الموبايل:</strong> افتحي الرابط في متصفح سفاري أو كروم، ثم اختاري <em>"إضافة إلى الشاشة الرئيسية" (Add to Home Screen)</em> لتثبيته كتطبيق كامل.</span>
+                    </div>
+                    <div class="check-item">
+                        <span>🌍</span>
+                        <span><strong>أونلاين لجميع أنحاء العالم:</strong> يمكنكِ تشغيل ملف <code>share_public_online.bat</code> لتوليد رابط عالمي يعمل من أي مكان بدون حتى الاتصال بنفس الشبكة!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- ============================================== -->
+        <!-- 1. AUTHENTICATION VIEW -->
+        <!-- ============================================== -->
+        <div class="auth-container" id="authView" style="display: none;">
+            <div class="auth-header">
+                <div style="width: 48px; height: 48px; margin: 0 auto 10px; background: var(--primary-gradient); border-radius: 14px; display: flex; align-items: center; justify-content: center;">
+                    <svg class="icon icon-lg" viewBox="0 0 24 24" stroke="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="white"></path></svg>
+                </div>
+                <h2 data-i18n="authWelcomeTitle">مرحباً بكِ في تطبيق SAFE</h2>
+                <p data-i18n="authWelcomeSub">حسابكِ الخاص لتتبع الدورة والتبويض وتسكين الألم بأمان ولطف</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" onclick="switchAuthTab('loginTab')" data-i18n="loginTab">تسجيل الدخول</button>
+                <button class="auth-tab-btn" onclick="switchAuthTab('registerTab')" data-i18n="registerTab">إنشاء حساب جديد</button>
+            </div>
+
+            <div class="auth-body" id="loginFormContainer">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label data-i18n="labelUsernameOrEmail">اسم المستخدم أو البريد:</label>
+                        <input type="text" id="loginIdentifier" class="form-control" placeholder="اسم المستخدم أو البريد" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="labelPassword">كلمة المرور:</label>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                        <span data-i18n="btnSignIn">دخول إلى حسابي الشخصي</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="auth-body" id="registerFormContainer" style="display: none;">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label data-i18n="labelRegUsername">اسم المستخدم الفريد (Username):</label>
+                        <input type="text" id="regUsername" class="form-control" placeholder="e.g. emma_2026" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="labelRegName">الاسم بالكامل:</label>
+                        <input type="text" id="regDisplayName" class="form-control" placeholder="e.g. Emma Watson" required>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label data-i18n="labelAge">العمر (سنة):</label>
+                            <input type="number" id="regAge" class="form-control" placeholder="24" min="10" max="80">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="labelWeight">الوزن (كجم):</label>
+                            <input type="number" id="regWeight" class="form-control" placeholder="60" min="25" max="250">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="labelHeight">الطول (سم):</label>
+                            <input type="number" id="regHeight" class="form-control" placeholder="165" min="100" max="220">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="labelRegEmail">البريد الإلكتروني (اختياري):</label>
+                        <input type="email" id="regEmail" class="form-control" placeholder="emma@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="labelRegPassword">كلمة المرور:</label>
+                        <input type="password" id="regPassword" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                        <span data-i18n="btnCreateAccount">إنشاء حسابي وقاعدة بياناتي الخاصة</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- 2. MAIN APP VIEW -->
+        <!-- ============================================== -->
+        <div id="mainAppView" style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <!-- 💌 Daily Support Affirmation Box (Rich Library 25+ Messages) -->
+            <div class="encouragement-card">
+                <div class="affirmation-content">
+                    <div class="affirmation-icon" id="affirmationIcon">🌸</div>
+                    <div>
+                        <div class="affirmation-text" id="affirmationText">
+                            أنتِ جميلة وقوية، وجسمكِ بيعمل مجهود رائع.. دلعي نفسكِ وخدي راحة النهاردة 💕
+                        </div>
+                        <div class="affirmation-sub" id="affirmationSub">
+                            رسالة تشجيعية يومية مخصصة لدعمكِ وراحتكِ النفسية
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-new-affirmation" onclick="getRandomAffirmation()">
+                    ✨ <span data-i18n="btnNewAffirmation">رسالة جديدة</span>
+                </button>
+            </div>
+
+            <!-- 🌸 5-Day Pre-Period / Ovulation Smart Warning Alert Banner -->
+            <div class="notification-alert-box" id="prePeriodAlertBox" onclick="openNotificationsModal()">
+                <div class="alert-header-row">
+                    <span class="alert-badge">
+                        <svg class="icon" viewBox="0 0 24 24" style="stroke:white;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                        <span id="alertBadgeText">تنبيه استعداد مسبق</span>
+                    </span>
+                    <span style="font-size: 0.78rem; color: var(--text-secondary); text-decoration: underline;">🔔 فتح مركز التنبيهات</span>
+                </div>
+                <div class="alert-title" id="alertTitleText">🌸 تنبيه الاستعداد للدورة</div>
+                <div class="alert-desc" id="alertDescText">لا تنسي الاعتناء بنفسكِ 💕 (اضغطي هنا لعرض كافة التفاصيل والقائمة)</div>
+                <div class="checklist-grid" id="checklistGrid" onclick="event.stopPropagation()"></div>
+            </div>
+
+            <!-- 🌿 Irregular Cycle Support Card -->
+            <div class="irregular-support-box" id="irregularSupportCard">
+                <div class="irregular-support-title">
+                    <span>👑</span>
+                    <span id="irregularHeadline">نصائح ودعم لعدم انتظام الدورة الشهرية</span>
+                </div>
+                <div class="irregular-support-text" id="irregularSupportText">
+                    لا تقلقي يا جميلة 💕 التفاوت في طول الدورة أمر طبيعي وشائع جداً بتأثير التوتر أو تغير نمط النوم أو الوزن.
+                </div>
+                <div class="checklist-grid" id="irregularTipsGrid"></div>
+            </div>
+
+            <!-- User Welcome Banner -->
+            <div class="user-banner">
+                <div class="user-banner-info">
+                    <div class="user-avatar" id="bannerAvatar">
+                        <svg class="icon icon-lg" viewBox="0 0 24 24" stroke="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="white"></path></svg>
+                    </div>
+                    <div>
+                        <div class="user-banner-title" id="bannerWelcomeText">مرحباً بكِ مجدداً!</div>
+                        <div class="user-banner-sub" id="bannerUserStats">جاري تحميل سجلاتكِ الخاصة...</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="badge badge-gold" id="bannerRegularity" data-i18n="regularCycle">دورة منتظمة ومثالية</span>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation Tabs -->
+            <nav class="desktop-tabs">
+                <button class="tab-btn active" onclick="switchTab('chatTab', event)">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span data-i18n="tabChat">المساعد الذكي اللطيف</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('calendarTab', event)">
+                    <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span data-i18n="tabCalendar">تقويم الدورة والتبويض</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('dashboardTab', event)">
+                    <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    <span data-i18n="tabDashboard">لوحة التحليلات الشخصية</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('careHubTab', event)">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    <span data-i18n="tabCareHub">دليل التسكين والعناية</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('manualTab', event)">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    <span data-i18n="tabLogPeriod">تسجيل الدورة والنزيف</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('historyTab', event)">
+                    <svg class="icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                    <span data-i18n="tabHistory">سجلاتي الخاصة في SAFE</span>
+                </button>
+            </nav>
+
+            <!-- VIEW 1: AI Chat Assistant -->
+            <section id="chatTab" class="tab-content active">
+                <div class="chat-grid">
+                    <div class="chat-box">
+                        <div class="chat-box-header">
+                            <h2>
+                                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"></path><path d="M12 6v6l4 2"></path></svg>
+                                <span data-i18n="chatTitle">المساعد الذكي الصحي واللطيف</span>
+                            </h2>
+                            <span style="font-size: 0.78rem; color: var(--text-secondary);" data-i18n="chatSub">دعم نفسي وتسكين ألم وتتبع آمن</span>
+                        </div>
+
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="msg-bubble bot" id="chatWelcomeMsg">
+                                مرحباً بكِ يا جميلة! 💕 كيف أستطيع مساعدتكِ اليوم في تتبع دورتكِ، غزارة النزيف، أو تخفيف التقلصات؟
+                            </div>
+                        </div>
+
+                        <div class="quick-prompts" id="quickPromptsContainer"></div>
+
+                        <div class="chat-input-bar">
+                            <input type="text" id="chatInput" placeholder="اسألي عن المسكنات المسموحة، غزارة النزيف، أو عدم انتظام الدورة..." onkeypress="handleKey(event)">
+                            <button class="btn-send" onclick="sendChatMessage()">
+                                <span data-i18n="btnSend">إرسال</span>
+                                <svg class="icon" viewBox="0 0 24 24" style="stroke:white;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Side Panel Widgets -->
+                    <div class="side-panel">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>
+                                    <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                                    <span data-i18n="sideOverviewTitle">ملخص ملفكِ الشخصي</span>
+                                </h3>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="statLastPeriod">تاريخ آخر دورة:</span>
+                                <span class="stat-val" id="widgetLastDate">—</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="statAvgCycle">متوسط طول الدورة (المرجح):</span>
+                                <span class="stat-val" id="widgetCycleLength">—</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="statAvgPeriod">متوسط مدة الحيض:</span>
+                                <span class="stat-val" id="widgetPeriodLength">—</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="statFlow">غزارة النزيف الأخيرة:</span>
+                                <span class="stat-val" id="widgetFlowIntensity">متوسط / طبيعي</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="statBmi">مؤشر الجسم (BMI):</span>
+                                <span class="stat-val" id="widgetBmiVal">—</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="statTotalCycles">إجمالي الدورات المسجلة:</span>
+                                <span class="stat-val" id="widgetTotalCycles">0</span>
+                            </div>
+                        </div>
+
+                        <div class="card" style="background: linear-gradient(135deg, var(--primary-glow), rgba(245, 158, 11, 0.08));">
+                            <div class="card-header">
+                                <h3>
+                                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                    <span data-i18n="securityTitle">رعاية صحية وأمان تام</span>
+                                </h3>
+                            </div>
+                            <div style="font-size: 0.85rem; line-height: 1.7; color: var(--text-secondary);" data-i18n="careSummaryText">
+                                👑 <strong>تخصيص الألوان والسمات:</strong> تحكم كامل في مظهر التطبيق<br>
+                                🌸 <strong>محرك توقع ذكي:</strong> حساب مرجح دقيق لمواعيد الدورة<br>
+                                ⭐ <strong>تتبع التبويض:</strong> تنبيهات وأعراض نافذة الخصوبة<br>
+                                🩸 <strong>كمية النزيف:</strong> تتبع تدفق الدم والألم
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 2: 📅 Visual Menstrual & Ovulation Calendar -->
+            <section id="calendarTab" class="tab-content">
+                <div class="calendar-card">
+                    <div class="calendar-header">
+                        <div class="calendar-month-title" id="calMonthYearTitle">أغسطس 2026</div>
+                        <div style="display: flex; gap: 6px;">
+                            <button class="cal-nav-btn" onclick="prevMonth()">◀ <span data-i18n="prevMonth">الشهر السابق</span></button>
+                            <button class="cal-nav-btn" onclick="currentMonthView()"><span data-i18n="today">اليوم</span></button>
+                            <button class="cal-nav-btn" onclick="nextMonth()"><span data-i18n="nextMonth">الشهر القادم</span> ▶</button>
+                        </div>
+                    </div>
+
+                    <div class="calendar-grid" id="calendarGrid"></div>
+
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: #e85d75;"></div>
+                            <span data-i18n="legendPeriod">🩸 أيام الدورة الشهرية</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: var(--primary);"></div>
+                            <span data-i18n="legendOvulation">⭐ يوم التبويض المتوقع</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: rgba(212, 154, 91, 0.4); border: 1px dashed var(--primary);"></div>
+                            <span data-i18n="legendFertile">✨ نافذة الخصوبة</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: var(--surface-hover); border: 1px dashed var(--primary);"></div>
+                            <span data-i18n="legendForecast">🔮 موعد الدورة القادم المتوقع</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 3: Personalized Dashboard & Analytics -->
+            <section id="dashboardTab" class="tab-content">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>
+                                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <span data-i18n="cardNextCycle">موعد الدورة القادمة المتوقع (الذكي)</span>
+                            </h3>
+                        </div>
+                        <div style="text-align: center; padding: 16px 0;">
+                            <span style="font-size: 1.5rem; font-weight: 900; color: var(--primary);" id="dashNextDate">—</span>
+                            <div style="color: var(--text-secondary); margin-top: 4px; font-weight: 700; font-size: 0.88rem;" id="dashCountdownText">—</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>
+                                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                <span data-i18n="cardFertileWindow">نافذة الخصوبة والتبويض</span>
+                            </h3>
+                        </div>
+                        <div style="text-align: center; padding: 16px 0;">
+                            <span style="font-size: 1.35rem; font-weight: 800; color: var(--primary-light);" id="dashOvulation">—</span>
+                            <div style="color: var(--text-secondary); margin-top: 4px; font-size: 0.82rem;" id="dashFertileWindow">نافذة الخصوبة: —</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>
+                                <svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                                <span data-i18n="cardTotalLogged">إجمالي الدورات في حسابكِ</span>
+                            </h3>
+                        </div>
+                        <div style="text-align: center; padding: 16px 0;">
+                            <span style="font-size: 2.2rem; font-weight: 900; color: var(--success);" id="dashTotalCycles">0</span>
+                            <div style="color: var(--text-secondary); margin-top: 4px; font-size: 0.82rem;" data-i18n="dashCyclesInAccount">دورة محفوظة في حسابكِ الشخصي</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            <span data-i18n="dashRecentCyclesTitle">آخر دورات مسجلة في حسابكِ</span>
+                        </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th data-i18n="thId"># المعرف</th>
+                                    <th data-i18n="thStartDate">تاريخ بداية الدورة</th>
+                                    <th data-i18n="thCycleLength">طول الدورة</th>
+                                    <th data-i18n="thPeriodLength">مدة الحيض</th>
+                                    <th data-i18n="thFlow">غزارة النزيف</th>
+                                    <th data-i18n="thPainLevel">مستوى الألم</th>
+                                    <th data-i18n="thSymptoms">الأعراض والتبويض</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashMiniTableBody">
+                                <tr><td colspan="7" style="text-align:center;" data-i18n="loading">جاري التحميل...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 4: 💊 Health & Pain Relief Hub -->
+            <section id="careHubTab" class="tab-content">
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>
+                                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                <span data-i18n="hubMedsTitle">دليل المسكنات الآمنة والمسموحة علمياً</span>
+                            </h3>
+                        </div>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 14px;" data-i18n="hubMedsSubtitle">
+                            دليل طبي لطيف لتخفيف تقلصات ومغص الدورة الشهرية. تذكري دائماً تناول المسكنات بعد الأكل واستشارة الطبيب إذا كان الألم شديداً بشكل غير معتاد.
+                        </p>
+
+                        <div class="med-grid">
+                            <div class="med-card">
+                                <span class="med-card-badge" data-i18n="med1Badge">مضاد للالتهاب وتقلص الرحم</span>
+                                <h4>إيبوبروفين (Brufen / Profen 400mg)</h4>
+                                <p data-i18n="med1Desc">يقلل إنتاج البروستاجلاندين المسبب لانقباضات الرحم المؤلمة. فعال جداً عند تناوله مع بداية المغص.</p>
+                                <span class="caution" data-i18n="med1Tip">💡 نصيحة: يؤخذ دائماً بعد وجبة خفيفة أو أكل.</span>
+                            </div>
+
+                            <div class="med-card">
+                                <span class="med-card-badge" data-i18n="med2Badge">مسكن خفيف وآمن للمعدة</span>
+                                <h4>باراسيتامول (Panadol / Adol 500mg)</h4>
+                                <p data-i18n="med2Desc">لطيف جداً على المعدة ومثالي لتسكين ألم الظهر والصداع الخفيف والمتوسط أثناء الدورة.</p>
+                                <span class="caution" data-i18n="med2Tip">💡 نصيحة: يمكن تناوله مع المشروبات الدافئة.</span>
+                            </div>
+
+                            <div class="med-card">
+                                <span class="med-card-badge" data-i18n="med3Badge">مسكن متخصص لآلام الدورة</span>
+                                <h4>حمض الميفيناميك (Ponstan 500mg)</h4>
+                                <p data-i18n="med3Desc">يستهدف ويثبط انقباضات عضلات الرحم مباشرة، ممتاز لآلام ومغص الدورة الشديد.</p>
+                                <span class="caution" data-i18n="med3Tip">💡 نصيحة: يُشرب مع كوب ماء ممتلئ.</span>
+                            </div>
+
+                            <div class="med-card">
+                                <span class="med-card-badge" data-i18n="med4Badge">ممتد المفعول 8-12 ساعة</span>
+                                <h4>نابروكسين (Aleve / Naproxen)</h4>
+                                <p data-i18n="med4Desc">يمنحكِ راحة ممتدة طوال ساعات الليل أو أثناء الدوام الطويل، فعال جداً في تقليل التقلصات المستمرة.</p>
+                                <span class="caution" data-i18n="med4Tip">💡 نصيحة: يدوم مفعوله لفترة أطول من البروفين.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>
+                                <svg class="icon" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+                                <span data-i18n="hubRemediesTitle">طرق طبيعية ومهدئات عشبية منزلية</span>
+                            </h3>
+                        </div>
+
+                        <div class="med-grid">
+                            <div class="med-card">
+                                <h4>🍵 مشروب القرفة والنعناع والزنجبيل</h4>
+                                <p data-i18n="rem1Desc">القرفة تريح انقباضات العضلات، والنعناع يوازن الهرمونات والزنجبيل بالعسل يهدئ الغثيان وثقل البطن فوراً.</p>
+                            </div>
+                            <div class="med-card">
+                                <h4>🔥 قربة الماء الدافئ (كمادات البطن)</h4>
+                                <p data-i18n="rem2Desc">قربة الماء الدافئ على أسفل البطن تزيد تدفق الدم وتعمل كباسط طبيعي لعضلات الحوض.</p>
+                            </div>
+                            <div class="med-card">
+                                <h4>🍫 شوكولاتة داكنة غنية بالماغنسيوم</h4>
+                                <p data-i18n="rem3Desc">الشوكولاتة الداكنة غنية بالماغنسيوم، تفرز هرمون السعادة وتخفف التقلصات.</p>
+                            </div>
+                            <div class="med-card">
+                                <h4>💧 السوائل الدافئة وترطيب الجسم</h4>
+                                <p data-i18n="rem4Desc">شرب 2 إلى 3 لتر ماء دافئ يقلل احتباس السوائل والانتفاخ والإجهاد.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 5: Manual Entry Form with Bleeding Flow, Pain & Ovulation Symptoms -->
+            <section id="manualTab" class="tab-content">
+                <div class="card" style="max-width: 760px; margin: 0 auto;">
+                    <div class="card-header">
+                        <h3>
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                            <span data-i18n="manualFormTitle">تسجيل الدورة، كمية النزيف وأعراض التبويض</span>
+                        </h3>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 14px;" data-i18n="manualFormSub">
+                        سجلي تواريخ الدورة، غزارة النزيف، الألم وأعراض التبويض بدقة في حسابكِ:
+                    </p>
+
+                    <form id="manualForm" onsubmit="submitManualEntry(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label data-i18n="labelPeriodDate">تاريخ بداية الدورة:</label>
+                                <input type="date" id="manualDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="labelCycleDays">طول الدورة (أيام):</label>
+                                <input type="number" id="manualCycle" class="form-control" min="15" max="60" value="28" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="labelPeriodDays">مدة الحيض (أيام):</label>
+                                <input type="number" id="manualPeriod" class="form-control" min="1" max="15" value="5" required>
+                            </div>
+                        </div>
+
+                        <!-- 🩸 Bleeding Flow Intensity Selector -->
+                        <div class="selector-box">
+                            <label style="font-weight: 800; font-size: 0.9rem; color: var(--text-primary);" data-i18n="labelFlowIntensity">
+                                🩸 كمية وغزارة النزيف (Bleeding Volume):
+                            </label>
+                            <div class="flow-chips-grid" id="flowChipsContainer">
+                                <div class="flow-chip" onclick="selectFlowChip(this, 'spotting')" data-i18n="flow_spotting">💧 تنقيط خفيف جداً (Spotting)</div>
+                                <div class="flow-chip" onclick="selectFlowChip(this, 'light')" data-i18n="flow_light">🩸 خفيف (Light)</div>
+                                <div class="flow-chip selected" onclick="selectFlowChip(this, 'medium')" data-i18n="flow_medium">🩸🩸 متوسط / طبيعي (Medium)</div>
+                                <div class="flow-chip" onclick="selectFlowChip(this, 'heavy')" data-i18n="flow_heavy">🩸🩸🩸 غزير (Heavy)</div>
+                                <div class="flow-chip" onclick="selectFlowChip(this, 'very_heavy')" data-i18n="flow_very_heavy">🩸🩸🩸🩸 غزير جداً مع كتل (Very Heavy)</div>
+                            </div>
+                        </div>
+
+                        <!-- 🩺 Pain Intensity Level Slider -->
+                        <div class="selector-box">
+                            <label style="font-weight: 800; font-size: 0.9rem; color: var(--text-primary);" data-i18n="labelPainIntensity">
+                                📊 مستوى وشدة الألم (1 إلى 10):
+                            </label>
+                            <div class="pain-slider-row">
+                                <input type="range" id="painSlider" class="pain-slider" min="1" max="10" value="5" oninput="updatePainLabel(this.value)">
+                                <div class="pain-emoji-badge" id="painEmojiDisplay">😐 5/10</div>
+                            </div>
+                            <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;" id="painDescriptionText">
+                                تقلصات متوسطة ومغص يمكن تحمله
+                            </div>
+
+                            <!-- 📍 Pain Locations Selector -->
+                            <div style="margin-top: 12px;">
+                                <label style="font-weight: 800; font-size: 0.85rem; color: var(--text-primary);" data-i18n="labelPainLocations">
+                                    📍 موقع الألم (اختاري ما تشعرين به):
+                                </label>
+                                <div class="location-chips-grid" id="locationChipsContainer">
+                                    <div class="location-chip selected" onclick="toggleLocationChip(this)" data-i18n="loc_abdomen">🩸 أسفل البطن / تقلصات</div>
+                                    <div class="location-chip" onclick="toggleLocationChip(this)" data-i18n="loc_back">🦴 أسفل الظهر</div>
+                                    <div class="location-chip" onclick="toggleLocationChip(this)" data-i18n="loc_headache">🤕 صداع بالرأس</div>
+                                    <div class="location-chip" onclick="toggleLocationChip(this)" data-i18n="loc_pelvic">🌸 ألم الثدي والحوض</div>
+                                    <div class="location-chip" onclick="toggleLocationChip(this)" data-i18n="loc_thighs">🦵 ألم الفخذين</div>
+                                    <div class="location-chip" onclick="toggleLocationChip(this)" data-i18n="loc_fatigue">💤 إجهاد عام بالجسم</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ⭐ Ovulation Symptoms Selector -->
+                        <div class="selector-box">
+                            <label style="font-weight: 800; font-size: 0.9rem; color: var(--text-primary);" data-i18n="labelOvulationSymptoms">
+                                ⭐ أعراض التبويض والخصوبة (Ovulation Symptoms):
+                            </label>
+                            <div class="location-chips-grid" id="ovulationChipsContainer">
+                                <div class="location-chip" onclick="toggleLocationChip(this)" data-i18n="ovu_mucus">💧 إفرازات مطاطية شفافة</div>
+                                <div class="location-chip" onclick="toggleLocationChip(this)" data-i18n="ovu_twinge">⚡ نغزات ألم بالجانب (التبويض)</div>
+                                <div class="location-chip" onclick="toggleLocationChip(this)" data-i18n="ovu_temp">🌡️ ارتفاع طفيف بحرارة الجسم</div>
+                                <div class="location-chip" onclick="toggleLocationChip(this)" data-i18n="ovu_energy">🌸 زيادة النشاط والحيوية</div>
+                                <div class="location-chip" onclick="toggleLocationChip(this)" data-i18n="ovu_breast">🍒 حساسية خفيفة بالثدي</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 14px;">
+                            <label data-i18n="labelSymptoms">ملاحظات إضافية (اختياري):</label>
+                            <input type="text" id="manualSymptoms" class="form-control" placeholder="مثال: شربت مشروب دافي وشعرت بارتياح كبير...">
+                        </div>
+
+                        <div style="margin-top: 20px; text-align: left;">
+                            <button type="submit" class="btn-primary" style="display: inline-flex; padding: 12px 28px; width: auto;">
+                                <svg class="icon" viewBox="0 0 24 24" style="stroke:white;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                <span data-i18n="btnSaveCycle">حفظ الدورة وكافة التفاصيل في حسابي</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- VIEW 6: User Personal Database Records Table -->
+            <section id="historyTab" class="tab-content">
+                <div class="table-card">
+                    <div class="card-header">
+                        <h3>
+                            <svg class="icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                            <span data-i18n="historyTitle">سجلات دوراتكِ الخاصة في قاعدة بيانات SAFE</span>
+                        </h3>
+                        <button class="btn-action" onclick="loadMyUserData()">
+                            <svg class="icon" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                            <span data-i18n="btnRefresh">تحديث السجلات</span>
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th data-i18n="thId"># المعرف</th>
+                                    <th data-i18n="thStartDate">تاريخ بداية الدورة</th>
+                                    <th data-i18n="thCycleLength">طول الدورة</th>
+                                    <th data-i18n="thPeriodLength">مدة الحيض</th>
+                                    <th data-i18n="thFlow">غزارة النزيف</th>
+                                    <th data-i18n="thPainLevel">مستوى الألم</th>
+                                    <th data-i18n="thPainLocations">موقع الألم والأعراض</th>
+                                    <th data-i18n="thRecordedAt">تاريخ التسجيل</th>
+                                    <th data-i18n="thActions">إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userCyclesTableBody">
+                                <tr>
+                                    <td colspan="9" style="text-align: center; padding: 24px; color: var(--text-secondary);" data-i18n="loading">
+                                        جاري التحميل...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- 📱 Mobile App Bottom Navigation Bar -->
+    <div class="mobile-bottom-nav">
+        <button class="nav-item active" onclick="switchMobileNav('chatTab', this)">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <span data-i18n="mobNavChat">المساعد</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileNav('calendarTab', this)">
+            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span data-i18n="mobNavCalendar">التقويم</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileNav('manualTab', this)">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+            <span data-i18n="mobNavLog">تسجيل</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileNav('dashboardTab', this)">
+            <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <span data-i18n="mobNavAnalytics">التحليلات</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileNav('careHubTab', this)">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            <span data-i18n="mobNavCare">العناية</span>
+        </button>
+        <button class="nav-item" onclick="openProfileModal()">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span data-i18n="mobNavProfile">الملف</span>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        SAFE Smart Period & Female Care Platform &copy; 2026 — PostgreSQL SAFE Edition
+    </footer>
+
+    <!-- Logic Script with Embedded 5-Language Dictionary, Theme Switcher & managerService -->
+    <script type="module">
+        import { ALL_LOCALES } from '/src/locales/allLocales.js';
+        import { managerService } from '/src/services/managerService.js';
+
+        let currentLang = localStorage.getItem('safe_lang') || 'ar';
+        let isDarkMode = localStorage.getItem('safe_theme') === 'dark';
+        let activeColorKey = localStorage.getItem('safe_accent_color') || 'gold';
+        let currentUser = null;
+        let currentNotificationData = null;
+        let userAnalyticsData = null;
+        let selectedFlow = 'medium';
+        let deferredPrompt = null;
+
+        // Calendar State
+        let calCurrentYear = new Date().getFullYear();
+        let calCurrentMonth = new Date().getMonth();
+
+        // 🎨 5 Palettes Configuration
+        const colorThemes = {
+            gold: { primary: '#d49a5b', light: '#f59e0b', dark: '#b45309', glow: 'rgba(212, 154, 91, 0.28)', grad: 'linear-gradient(135deg, #d49a5b 0%, #f59e0b 50%, #b45309 100%)' },
+            rose: { primary: '#e85d75', light: '#ff758f', dark: '#c9184a', glow: 'rgba(232, 93, 117, 0.28)', grad: 'linear-gradient(135deg, #e85d75 0%, #ff758f 50%, #c9184a 100%)' },
+            purple: { primary: '#8b5cf6', light: '#a78bfa', dark: '#6d28d9', glow: 'rgba(139, 92, 246, 0.28)', grad: 'linear-gradient(135deg, #8b5cf6 0%, #a78bfa 50%, #6d28d9 100%)' },
+            teal: { primary: '#06b6d4', light: '#22d3ee', dark: '#0e7490', glow: 'rgba(6, 182, 212, 0.28)', grad: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #0e7490 100%)' },
+            emerald: { primary: '#10b981', light: '#34d399', dark: '#047857', glow: 'rgba(16, 185, 129, 0.28)', grad: 'linear-gradient(135deg, #10b981 0%, #34d399 50%, #047857 100%)' }
+        };
+
+        // 💌 Rich Library of 25+ Daily Sweet Support & Affirmation Messages
+        const affirmationsList = {
+            ar: [
+                { icon: "🌸", text: "أنتِ جميلة وقوية، وجسمكِ بيعمل مجهود هرموني عظيم.. دلعي نفسكِ وخدي راحة النهاردة 💕" },
+                { icon: "☕", text: "طبيعي تحسي بإرهاق أو رغبة في الهدوء، اشربي كوباية قرفة دافية بالنعناع وريحي عضلاتكِ يا بطلة ✨" },
+                { icon: "🍫", text: "قطعة شوكولاتة داكنة مع حمام دافي هيغيروا مودكِ 180 درجة.. متضغطيش على نفسكِ أبداً في أي مجهود 💕" },
+                { icon: "🧸", text: "اسمعي لنداء جسمكِ، البسي أريح وأوسع لبس عندك، واستمتعي بالدفء والراحة بكل حب 🌸" },
+                { icon: "👑", text: "أنتِ بتتحملي تقلبات هرمونية مش سهلة بكل أنوثة وصبر، فخورين بيكِ وبقوتكِ يا قمر 💕" },
+                { icon: "🌿", text: "متقلقيش من أي تقلب بالمزاج، دي مجرد هرمونات بتتحرك، وانتي دايماً محبوبة ومميزة ✨" },
+                { icon: "🍵", text: "الزنجبيل بالعسل والبابونج بيعملوا سحر في تسكين المغص وثقل البطن.. جربيهم وادعيلي 💕" },
+                { icon: "✨", text: "كل دورة شهرية هي بداية جديدة لتجديد خلايا جسمكِ ونشاطكِ.. يومكِ لطيف ومريح يا رب 🌸" },
+                { icon: "🛌", text: "النوم بدري النهاردة في أوضة هادية ومظلمة هيظبط هرموناتكِ ومزاجكِ لبكرة تماماً 💕" },
+                { icon: "❤️", text: "جسمكِ بيحبكِ وبيحميكي، عبري له عن شكركِ بأنك تديله قسط وافر من الراحة والاسترخاء ✨" },
+                { icon: "🛁", text: "قربة المياه الدافئة على أسفل البطن أو الضهر بتفكك أي تشنجات في ثواني.. جربيها دلوقتي 💕" },
+                { icon: "🍓", text: "اشربي مياه كتير وكلي فواكه طازجة غنية بمضادات الأكسدة عشان ترجعي نضارة بشرتكِ وحيويتكِ 🌸" },
+                { icon: "🌙", text: "خدي نفس عميق وخرجي كل التوتر.. صحتكِ وراحتكِ النفسية هي أولويتكِ الأولى دايماً 💕" },
+                { icon: "💖", text: "أنتِ مش مضطرة تنجزي كل حاجة النهاردة، كفاية إنك بتاخدي بالك من صحتك ونفسيتك ✨" },
+                { icon: "🕯️", text: "ولعي شمعة بريحة لافندر هادية، واستمتعي بوقت هادي مع نفسكِ بعيداً عن أي ضغوطات 💕" },
+                { icon: "🌟", text: "طاقتكِ وإشراقتكِ هترجع أقوى من الأول أول ما الدورة تخلص.. استمتعي بفترة الهدوء دي 🌸" },
+                { icon: "🍯", text: "ملعقة عسل نحل طبيعي مع مشروب دافي هتمدكِ بطاقة لطيفة وتهدي أي تقلصات في بطنكِ 💕" },
+                { icon: "🕊️", text: "سامحي نفسكِ لو حاسة بكسل أو رغبة في البقاء في السرير، ده حق جسمكِ الطبيعي تماماً ✨" },
+                { icon: "🌺", text: "أنوثتكِ وجمالكِ بيلمعوا في كل مرحلة من مراحل دورتكِ.. خليكِ فخورة بنفسكِ دايماً 💕" },
+                { icon: "💆‍♀️", text: "مساج خفيف لأسفل الظهر والبطن بزيت دافي هيريح عضلات الحوض ويطرد أي تعب فوراً 🌸" },
+                { icon: "🥑", text: "الأكل الصحي والأفوكادو والمكسرات بيظبطوا هرمون الإستروجين وبيخلوكي تحسي بالشبع والراحة 💕" },
+                { icon: "🎵", text: "اسمعي أصوات مريحة أو موسيقى هادية واسترخي.. كل حاجة هتعدي وتبقي أحسن من الأول ✨" },
+                { icon: "💎", text: "أنتِ أغلى حاجة، وصحتكِ وراحتكِ متتعوضش.. دلعي نفسكِ واشربي مشروبكِ المفضل دلوقتي 💕" },
+                { icon: "🎈", text: "ابتسمي يا قمر.. الابتسامة بتفرز هرمون الإندورفين اللي بيسكن الألم طبيعياً 🌸" },
+                { icon: "🌷", text: "يوم جديد، وفرصة تدلعي فيها صحتكِ ونفسيتكِ.. احنا دايماً معاكِ وبندعمكِ في كل خطوة 💕" }
+            ],
+            en: [
+                { icon: "🌸", text: "You are truly wonderful and strong! Your body is doing incredible hormonal work, take gentle rest today 💕" },
+                { icon: "☕", text: "It is completely okay to feel tired or sensitive. Sip some warm cinnamon tea and relax ✨" },
+                { icon: "🍫", text: "A piece of dark chocolate and a cozy heating pad will brighten your day.. pamper yourself 💕" },
+                { icon: "🧸", text: "Listen to your body, snuggle in your softest clothes, and rest with unconditional love 🌸" },
+                { icon: "👑", text: "You handle monthly changes with grace and resilience. Always remember how extraordinary you are 💕" },
+                { icon: "🌿", text: "Embrace the slow rhythm today. Nourish yourself with herbal tea and soothing thoughts ✨" },
+                { icon: "🛌", text: "An early, restful night in a quiet room will harmonize your melatonin and estrogen beautifully 💕" },
+                { icon: "🍓", text: "Hydrate with warm water and antioxidant berries to support your skin and natural glow 🌸" },
+                { icon: "✨", text: "You don't have to conquer everything today. Self-care is your highest productivity 💕" },
+                { icon: "🕯️", text: "Light a calming lavender candle, breathe deeply, and allow your muscles to melt into peace ✨" }
+            ],
+            fr: [
+                { icon: "🌸", text: "Vous êtes exceptionnelle et forte ! Votre corps accomplit un travail magnifique, reposez-vous 💕" },
+                { icon: "☕", text: "Il est tout à fait normal de se sentir fatiguée. Savourez une tisane chaude à la cannelle ✨" },
+                { icon: "🍫", text: "Un morceau de chocolat noir et une bouillotte douce illumineront votre journée 💕" },
+                { icon: "👑", text: "Vous traversez chaque cycle avec grâce et courage. Soyez fière de vous aujourd'hui 💕" }
+            ],
+            de: [
+                { icon: "🌸", text: "Du bist außergewöhnlich und stark! Dein Körper leistet Großartiges, gönne dir heute Ruhe 💕" },
+                { icon: "☕", text: "Es ist völlig in Ordnung, müde zu sein. Genieße einen warmen Kräutertee und entspanne dich ✨" },
+                { icon: "🍫", text: "Ein Stück dunkle Schokolade und eine warme Wärmflasche verschönern deinen Tag 💕" },
+                { icon: "👑", text: "Du meisterst jeden Zyklus mit Stärke und Eleganz. Pass heute gut auf dich auf 💕" }
+            ],
+            sw: [
+                { icon: "🌸", text: "Wewe ni wa pekee na shupavu! Mwili wako unafanya kazi nzuri, pumzika kwa upendo leo 💕" },
+                { icon: "☕", text: "Ni kawaida kujisikia umechoka. Kunywa chai ya mdalasini ya joto na upumzishe misuli yako ✨" },
+                { icon: "🍫", text: "Chokoleti nyeusi na utulivu wa chupa ya maji ya moto vitafanya siku yako kuwa nzuri 💕" },
+                { icon: "👑", text: "Unakabiliana na kila mzunguko kwa hekima na nguvu. Tunajivunia wewe 💕" }
+            ]
+        };
+
+        // Quick prompts for all 5 languages
+        const quickPromptsData = {
+            ar: [
+                { text: '🩸 النزيف عندي غزير جداً ومعاه كتل، أعمل إيه وازاي اهتم بصحتي؟' },
+                { text: '⭐ ما هي أهم أعراض وعلامات فترة التبويض والخصوبة العالية؟' },
+                { text: '🌿 دورتي غير منتظمة وبتتأخر، ايه أفضل النصائح لتنظيمها وتوازن الهرمونات؟' },
+                { text: '💊 ما هي المسكنات الآمنة لتخفيف مغص الدورة؟' }
+            ],
+            en: [
+                { text: '🩸 I have heavy bleeding with clots, what should I do for self-care?' },
+                { text: '⭐ What are the key signs and symptoms of my peak ovulation window?' },
+                { text: '🌿 My cycle is irregular and delayed, what are natural tips to restore hormonal balance?' },
+                { text: '💊 What are safe painkillers for relieving menstrual cramps?' }
+            ],
+            fr: [
+                { text: '🩸 J\'ai un flux très abondant avec caillots, que dois-je faire ?' },
+                { text: '⭐ Quels sont les signes clés de ma période d\'ovulation et de fertilité ?' },
+                { text: '🌿 Mon cycle est irrégulier, quels conseils naturels pour équilibrer mes hormones ?' },
+                { text: '💊 Quels sont les analgésiques recommandés pour soulager les crampes ?' }
+            ],
+            de: [
+                { text: '🩸 Ich habe eine sehr starke Blutung mit Klumpen, was kann ich tun?' },
+                { text: '⭐ Was sind die wichtigsten Anzeichen für meinen Eisprung und fruchtbare Tage?' },
+                { text: '🌿 Mein Zyklus ist unregelmäßig, wie kann ich Hormone natürlich regulieren?' },
+                { text: '💊 Welche Schmerzmittel sind sicher bei Menstruationsbeschwerden?' }
+            ],
+            sw: [
+                { text: '🩸 Nina damu nyingi ya hedhi yenye mabonge, nifanye nini kujitunza?' },
+                { text: '⭐ Ni zipi dalili kuu za dirisha la upevushaji mayai na uzazi?' },
+                { text: '🌿 Mzunguko wangu haueleweki na unachelewa, nifanyeje kuweka homoni sawa?' },
+                { text: '💊 Dawa gani salama za kutuliza maumivu ya tumbo la hedhi?' }
+            ]
+        };
+
+        // Theme palette switcher function
+        window.setThemeColor = function(key, ev) {
+            if (!colorThemes[key]) return;
+            activeColorKey = key;
+            localStorage.setItem('safe_accent_color', key);
+
+            const theme = colorThemes[key];
+            document.documentElement.style.setProperty('--primary', theme.primary);
+            document.documentElement.style.setProperty('--primary-light', theme.light);
+            document.documentElement.style.setProperty('--primary-dark', theme.dark);
+            document.documentElement.style.setProperty('--primary-glow', theme.glow);
+            document.documentElement.style.setProperty('--primary-gradient', theme.grad);
+
+            document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+            const activeDot = document.getElementById(`dot_${key}`);
+            if (activeDot) activeDot.classList.add('active');
+        };
+
+        window.switchAppLang = function(lang) {
+            currentLang = lang;
+            localStorage.setItem('safe_lang', currentLang);
+            applyLanguage();
+        };
+
+        function applyLanguage() {
+            const html = document.documentElement;
+            const body = document.body;
+            const dict = ALL_LOCALES[currentLang] || ALL_LOCALES['en'];
+
+            // Update active pill styling
+            document.querySelectorAll('.lang-pill').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`langBtn_${currentLang}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            if (currentLang === 'ar') {
+                html.setAttribute('lang', 'ar');
+                html.setAttribute('dir', 'rtl');
+                body.className = isDarkMode ? 'dark-mode' : '';
+            } else {
+                html.setAttribute('lang', currentLang);
+                html.setAttribute('dir', 'ltr');
+                body.className = `lang-${currentLang} ${isDarkMode ? 'dark-mode' : ''}`;
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerHTML = dict[key];
+                }
+            });
+
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput) {
+                if (currentLang === 'ar') chatInput.placeholder = 'اسألي عن المسكنات المسموحة، غزارة النزيف، أو عدم انتظام الدورة...';
+                else if (currentLang === 'fr') chatInput.placeholder = 'Posez une question sur les analgésiques, le flux, ou l\'ovulation...';
+                else if (currentLang === 'de') chatInput.placeholder = 'Frage nach Schmerzmitteln, Blutungsstärke oder dem Eisprung...';
+                else if (currentLang === 'sw') chatInput.placeholder = 'Uliza kuhusu dawa za maumivu, kiwango cha damu au upevushaji...';
+                else chatInput.placeholder = 'Ask about safe painkillers, flow intensity, or irregular cycle...';
+            }
+
+            renderQuickPrompts();
+            renderCalendar();
+
+            if (currentUser) {
+                updateUserBanner();
+                loadMyUserData();
+                checkPrePeriodNotifications();
+            }
+        }
+
+        function renderQuickPrompts() {
+            const container = document.getElementById('quickPromptsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            const list = quickPromptsData[currentLang] || quickPromptsData['en'];
+            list.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = 'prompt-chip';
+                btn.innerText = p.text;
+                btn.onclick = () => {
+                    document.getElementById('chatInput').value = p.text;
+                    window.sendChatMessage();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        window.toggleDarkMode = function() {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('safe_theme', isDarkMode ? 'dark' : 'light');
+            applyTheme();
+        };
+
+        function applyTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if (isDarkMode) {
+                body.classList.add('dark-mode');
+                if (themeIcon) themeIcon.innerText = '☀️';
+            } else {
+                body.classList.remove('dark-mode');
+                if (themeIcon) themeIcon.innerText = '🌙';
+            }
+        }
+
+        // PWA Install Prompt Listener
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const btn = document.getElementById('btnInstallApp');
+            if (btn) btn.style.display = 'flex';
+        });
+
+        window.installPWA = function() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('btnInstallApp').style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert(currentLang === 'ar'
+                    ? "لتثبيت تطبيق SAFE على هاتفكِ: اضغطي على زر المشاركة (Share) في Safari أو الثلاث نقاط (⋮) في Chrome ثم اختاري 'إضافة إلى الشاشة الرئيسية' 📲"
+                    : "To install SAFE on mobile: Tap Share in Safari or ⋮ in Chrome, then select 'Add to Home Screen' 📲");
+            }
+        };
+
+        // Sound chime generator
+        function playChimeSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(880.00, ctx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.6);
+            } catch (e) {}
+        }
+
+        window.showToast = function(title, message) {
+            playChimeSound();
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastTitleText').innerText = title;
+            document.getElementById('toastBodyText').innerText = message;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 6000);
+        };
+
+        window.getRandomAffirmation = function() {
+            playChimeSound();
+            const list = affirmationsList[currentLang] || affirmationsList['en'];
+            const rand = list[Math.floor(Math.random() * list.length)];
+            document.getElementById('affirmationIcon').innerText = rand.icon;
+            document.getElementById('affirmationText').innerText = rand.text;
+        };
+
+        window.openNotificationsModal = function() {
+            document.getElementById('notificationsModal').style.display = 'flex';
+            updateModalNotificationContent();
+        };
+
+        window.closeNotificationsModal = function() {
+            document.getElementById('notificationsModal').style.display = 'none';
+        };
+
+        window.openProfileModal = function() {
+            document.getElementById('profileModal').style.display = 'flex';
+            if (currentUser) {
+                document.getElementById('profAge').value = currentUser.age || '';
+                document.getElementById('profWeight').value = currentUser.weight || '';
+                document.getElementById('profHeight').value = currentUser.height || '';
+                calculateLiveBMI();
+            }
+        };
+
+        window.closeProfileModal = function() {
+            document.getElementById('profileModal').style.display = 'none';
+        };
+
+        window.calculateLiveBMI = function() {
+            const w = parseFloat(document.getElementById('profWeight').value);
+            const h = parseFloat(document.getElementById('profHeight').value);
+            const display = document.getElementById('profBmiDisplay');
+            const cat = document.getElementById('profBmiCategory');
+
+            if (w > 0 && h > 0) {
+                const bmi = (w / ((h / 100) * (h / 100))).toFixed(1);
+                display.innerText = bmi;
+                if (bmi < 18.5) {
+                    cat.innerText = currentLang === 'ar' ? 'وزن أقل من المثالي (قد يسبب تأخر الدورة)' : 'Underweight';
+                    cat.style.color = '#f59e0b';
+                } else if (bmi <= 24.9) {
+                    cat.innerText = currentLang === 'ar' ? 'وزن مثالي ممتاز لتوازن الهرمونات' : 'Optimal Balance';
+                    cat.style.color = '#10b981';
+                } else {
+                    cat.innerText = currentLang === 'ar' ? 'مؤشر مرتفع (ينصح بتنظيم الوجبات)' : 'Slightly Elevated';
+                    cat.style.color = '#f59e0b';
+                }
+            } else {
+                display.innerText = '—';
+                cat.innerText = '—';
+            }
+        };
+
+        window.saveProfileData = async function(e) {
+            e.preventDefault();
+            const age = document.getElementById('profAge').value;
+            const weight = document.getElementById('profWeight').value;
+            const height = document.getElementById('profHeight').value;
+
+            try {
+                const data = await managerService.updateProfile({ age, weight, height });
+                if (data.success) {
+                    currentUser = data.user;
+                    window.showToast(
+                        currentLang === 'ar' ? '✅ تم حفظ الملف الصحي!' : '✅ Profile Updated!',
+                        currentLang === 'ar' ? 'تم تحديث مؤشرات الجسم ومعدل الـ BMI بنجاح' : 'Health profile updated successfully'
+                    );
+                    closeProfileModal();
+                    loadMyUserData();
+                } else {
+                    alert(data.error || 'Failed to update profile');
+                }
+            } catch (err) {
+                alert('Connection error');
+            }
+        };
+
+        function updateModalNotificationContent() {
+            const enableBtnText = document.getElementById('modalEnableBtnText');
+            if (Notification.permission === 'granted') {
+                enableBtnText.innerText = currentLang === 'ar' ? '✅ التنبيهات مفعّلة' : '✅ Active';
+                document.getElementById('modalEnableBtn').style.background = '#10b981';
+            } else {
+                enableBtnText.innerText = currentLang === 'ar' ? '🔔 تفعيل التنبيهات' : '🔔 Enable Push';
+            }
+
+            const headingEl = document.getElementById('modalAlertHeading');
+            const msgEl = document.getElementById('modalAlertMessage');
+            const gridEl = document.getElementById('modalChecklistGrid');
+
+            if (currentNotificationData && currentNotificationData.active) {
+                const n = currentNotificationData;
+                headingEl.innerText = currentLang === 'ar' ? n.title_ar : n.title_en;
+                msgEl.innerText = currentLang === 'ar' ? n.message_ar : n.message_en;
+
+                gridEl.innerHTML = '';
+                const list = currentLang === 'ar' ? n.checklist_ar : n.checklist_en;
+                if (list) {
+                    list.forEach((item, idx) => {
+                        const label = document.createElement('label');
+                        label.className = 'check-item';
+                        label.innerHTML = `<input type="checkbox" id="m_chk_${idx}"><span>${item}</span>`;
+                        gridEl.appendChild(label);
+                    });
+                }
+            } else {
+                headingEl.innerText = currentLang === 'ar' ? '🌸 التوقعات: دورتكِ والتبويض في الموعد' : '🌸 Forecast: Cycles on Track';
+                msgEl.innerText = currentLang === 'ar' 
+                    ? 'يتم تتبع موعد دورتكِ والتبويض بدقة وفق المتوسط المرجح. ستصلكِ تنبيهات الاستعداد تلقائياً قبل 5 أيام!' 
+                    : 'Your period and ovulation are being tracked accurately. Advance reminders will appear automatically!';
+                
+                gridEl.innerHTML = `
+                    <div style="font-size:0.85rem; color:var(--text-secondary); padding:8px;">
+                        ${currentLang === 'ar' ? '✅ جميع قوائم الاستعداد متزامنة مع مواعيد دورتكِ الشخصية.' : '✅ All checklists are synced with your personal cycle schedule.'}
+                    </div>
+                `;
+            }
+        }
+
+        window.enablePushNotifications = function() {
+            if (!("Notification" in window)) return;
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    updateModalNotificationContent();
+                    window.showToast(
+                        currentLang === 'ar' ? "🔔 تم تفعيل التنبيهات!" : "🔔 Notifications Enabled!",
+                        currentLang === 'ar' ? "ستصلكِ تنبيهات مسبقة قبل 5 أيام من الدورة وعند بدء نافذة التبويض 💕" : "Period and ovulation alerts are active 💕"
+                    );
+                }
+            });
+        };
+
+        window.sendTestNotification = function() {
+            const title = currentLang === 'ar' ? "⭐ تنبيه نافذة التبويض والخصوبة" : "⭐ SAFE Ovulation Alert";
+            const msg = currentLang === 'ar' 
+                ? "أنتِ الآن في قمة نافذة الخصوبة والتبويض! استمتعي بإشراقتكِ واشربي سوائل وفيرة 💕" 
+                : "You are in your peak ovulation window! Hydrate and embrace your energy 💕";
+            window.showToast(title, msg);
+            if (window.Notification && Notification.permission === 'granted') {
+                new Notification(title, { body: msg, icon: "⭐" });
+            }
+        };
+
+        window.selectFlowChip = function(el, flowType) {
+            document.querySelectorAll('#flowChipsContainer .flow-chip').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedFlow = flowType;
+        };
+
+        window.updatePainLabel = function(val) {
+            const display = document.getElementById('painEmojiDisplay');
+            const desc = document.getElementById('painDescriptionText');
+            val = parseInt(val);
+            if (val <= 3) {
+                display.innerText = `😊 ${val}/10`;
+                desc.innerText = currentLang === 'ar' ? 'خفيف (يمكن تحمله بدون مسكنات)' : 'Mild (manageable)';
+            } else if (val <= 6) {
+                display.innerText = `😐 ${val}/10`;
+                desc.innerText = currentLang === 'ar' ? 'متوسط (تقلصات ومغص ملحوظ بالبطن أو الظهر)' : 'Moderate (noticeable cramps)';
+            } else if (val <= 8) {
+                display.innerText = `😣 ${val}/10`;
+                desc.innerText = currentLang === 'ar' ? 'شديد (يحتاج لمسكنات معتمدة وقربة دافئة)' : 'Severe (requires pain relief & rest)';
+            } else {
+                display.innerText = `😭 ${val}/10`;
+                desc.innerText = currentLang === 'ar' ? 'حاد جداً (راحة تامة واستشارة طبية)' : 'Very Intense';
+            }
+        };
+
+        window.toggleLocationChip = function(el) {
+            el.classList.toggle('selected');
+        };
+
+        function getSelectedChips(containerId) {
+            const selected = [];
+            document.querySelectorAll(`#${containerId} .location-chip.selected`).forEach(c => {
+                selected.push(c.innerText.trim());
+            });
+            return selected.join('، ');
+        }
+
+        // 🌐 Share Modal Functions
+        window.openShareModal = async function() {
+            document.getElementById('shareModal').style.display = 'flex';
+            try {
+                const res = await fetch('/api/network-info');
+                const data = await res.json();
+                if (data.success && data.network_urls && data.network_urls.length > 0) {
+                    const primaryUrl = data.network_urls[0];
+                    const input = document.getElementById('shareUrlInput');
+                    const qrImg = document.getElementById('shareQrImage');
+                    if (input) input.value = primaryUrl;
+                    if (qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(primaryUrl)}`;
+                }
+            } catch (e) {}
+        };
+
+        window.closeShareModal = function() {
+            document.getElementById('shareModal').style.display = 'none';
+        };
+
+        window.copyShareUrl = function() {
+            const input = document.getElementById('shareUrlInput');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value);
+            window.showToast(
+                currentLang === 'ar' ? '📋 تم نسخ الرابط!' : '📋 Link Copied!',
+                currentLang === 'ar' ? 'يمكنكِ الآن لصقه وإرساله لأي موبايل أو جهاز آخر' : 'You can now share this URL with any mobile device or PC'
+            );
+        };
+
+        // 📅 Timezone-safe date adder
+        function addDaysToDateStr(dateStr, daysToAdd) {
+            if (!dateStr) return '';
+            const cleanStr = String(dateStr).split('T')[0];
+            const parts = cleanStr.split('-');
+            if (parts.length < 3) return '';
+            const y = parseInt(parts[0], 10);
+            const m = parseInt(parts[1], 10) - 1;
+            const d = parseInt(parts[2], 10);
+            const dt = new Date(y, m, d + daysToAdd);
+            const ry = dt.getFullYear();
+            const rm = String(dt.getMonth() + 1).padStart(2, '0');
+            const rd = String(dt.getDate()).padStart(2, '0');
+            return `${ry}-${rm}-${rd}`;
+        }
+
+        window.prevMonth = function() {
+            calCurrentMonth--;
+            if (calCurrentMonth < 0) { calCurrentMonth = 11; calCurrentYear--; }
+            renderCalendar();
+        };
+
+        window.nextMonth = function() {
+            calCurrentMonth++;
+            if (calCurrentMonth > 11) { calCurrentMonth = 0; calCurrentYear++; }
+            renderCalendar();
+        };
+
+        window.currentMonthView = function() {
+            calCurrentYear = new Date().getFullYear();
+            calCurrentMonth = new Date().getMonth();
+            renderCalendar();
+        };
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            const monthNamesEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const monthNamesAr = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            const monthNamesFr = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+            const monthNamesDe = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+            const monthNamesSw = ['Januari', 'Februari', 'Machi', 'Aprili', 'Mei', 'Juni', 'Julai', 'Agosti', 'Septemba', 'Oktoba', 'Novemba', 'Desemba'];
+
+            const dayHeadersEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const dayHeadersAr = ['أحد', 'إثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'];
+            const dayHeadersFr = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+            const dayHeadersDe = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+            const dayHeadersSw = ['Jpili', 'Jtatu', 'Jnne', 'Jtano', 'Alh', 'Iju', 'Jmosi'];
+
+            let mNames = monthNamesEn;
+            let dHeaders = dayHeadersEn;
+            if (currentLang === 'ar') { mNames = monthNamesAr; dHeaders = dayHeadersAr; }
+            else if (currentLang === 'fr') { mNames = monthNamesFr; dHeaders = dayHeadersFr; }
+            else if (currentLang === 'de') { mNames = monthNamesDe; dHeaders = dayHeadersDe; }
+            else if (currentLang === 'sw') { mNames = monthNamesSw; dHeaders = dayHeadersSw; }
+
+            document.getElementById('calMonthYearTitle').innerText = `${mNames[calCurrentMonth]} ${calCurrentYear}`;
+
+            dHeaders.forEach(h => {
+                const hd = document.createElement('div');
+                hd.className = 'cal-day-header';
+                hd.innerText = h;
+                grid.appendChild(hd);
+            });
+
+            const firstDayIndex = new Date(calCurrentYear, calCurrentMonth, 1).getDay();
+            const daysInMonth = new Date(calCurrentYear, calCurrentMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'cal-day-cell empty';
+                grid.appendChild(empty);
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const cell = document.createElement('div');
+                cell.className = 'cal-day-cell';
+                const dayStr = `${calCurrentYear}-${String(calCurrentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                let badgeHtml = '';
+
+                if (userAnalyticsData) {
+                    if (userAnalyticsData.all_cycles) {
+                        userAnalyticsData.all_cycles.forEach(c => {
+                            const pLen = parseInt(c.period_length || 5, 10);
+                            for (let p = 0; p < pLen; p++) {
+                                const pDateStr = addDaysToDateStr(c.last_period_date, p);
+                                if (pDateStr === dayStr) {
+                                    badgeHtml += `<span class="cal-badge cal-badge-period">🩸 ${currentLang === 'ar' ? 'دورة' : 'Period'}</span>`;
+                                }
+                            }
+                        });
+                    }
+
+                    if (userAnalyticsData.ovulation_date === dayStr) {
+                        badgeHtml += `<span class="cal-badge cal-badge-ovulation">⭐ ${currentLang === 'ar' ? 'تبويض' : 'Ovulation'}</span>`;
+                    }
+
+                    if (userAnalyticsData.fertile_start && userAnalyticsData.fertile_end) {
+                        if (dayStr >= userAnalyticsData.fertile_start && dayStr <= userAnalyticsData.fertile_end && userAnalyticsData.ovulation_date !== dayStr) {
+                            badgeHtml += `<span class="cal-badge cal-badge-fertile">✨ ${currentLang === 'ar' ? 'خصوبة' : 'Fertile'}</span>`;
+                        }
+                    }
+
+                    if (userAnalyticsData.next_period_date === dayStr) {
+                        badgeHtml += `<span class="cal-badge cal-badge-predicted">🔮 ${currentLang === 'ar' ? 'متوقع' : 'Forecast'}</span>`;
+                    }
+                }
+
+                cell.innerHTML = `<div class="cal-day-num">${d}</div><div>${badgeHtml}</div>`;
+                cell.onclick = () => {
+                    document.getElementById('manualDate').value = dayStr;
+                    window.switchTab('manualTab');
+                };
+                grid.appendChild(cell);
+            }
+        }
+
+        async function checkPrePeriodNotifications() {
+            try {
+                const data = await managerService.getNotifications();
+                const alertBox = document.getElementById('prePeriodAlertBox');
+                const headerNotifyBtn = document.getElementById('headerNotifyBtn');
+
+                if (data.success && data.notification && data.notification.active) {
+                    currentNotificationData = data.notification;
+                    const n = data.notification;
+                    alertBox.style.display = 'block';
+                    if (headerNotifyBtn) headerNotifyBtn.classList.add('has-alert');
+
+                    document.getElementById('alertBadgeText').innerText = currentLang === 'ar'
+                        ? (n.type === 'ovulation_alert' ? '⭐ نافذة التبويض والخصوبة نشطة' : `🌸 تنبيه استعداد مسبق (متبقي ${n.days_left} أيام)`)
+                        : (n.type === 'ovulation_alert' ? '⭐ Ovulation Window Active' : `Pre-Period Alert (${n.days_left} Days Left)`);
+
+                    document.getElementById('alertTitleText').innerText = currentLang === 'ar' ? n.title_ar : n.title_en;
+                    document.getElementById('alertDescText').innerText = currentLang === 'ar' ? n.message_ar : n.message_en;
+
+                    const grid = document.getElementById('checklistGrid');
+                    grid.innerHTML = '';
+                    const list = currentLang === 'ar' ? n.checklist_ar : n.checklist_en;
+                    if (list) {
+                        list.forEach((item, idx) => {
+                            const label = document.createElement('label');
+                            label.className = 'check-item';
+                            label.innerHTML = `<input type="checkbox" id="check_${idx}"><span>${item}</span>`;
+                            grid.appendChild(label);
+                        });
+                    }
+                } else {
+                    currentNotificationData = null;
+                    alertBox.style.display = 'none';
+                    if (headerNotifyBtn) headerNotifyBtn.classList.remove('has-alert');
+                }
+            } catch (err) {}
+        }
+
+        window.switchAuthTab = function(tab) {
+            document.querySelectorAll('.auth-tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            if (tab === 'loginTab') {
+                document.getElementById('loginFormContainer').style.display = 'block';
+                document.getElementById('registerFormContainer').style.display = 'none';
+            } else {
+                document.getElementById('loginFormContainer').style.display = 'none';
+                document.getElementById('registerFormContainer').style.display = 'block';
+            }
+        };
+
+        window.quickFillLogin = function(u, p) {
+            document.getElementById('loginIdentifier').value = u;
+            document.getElementById('loginPassword').value = p;
+        };
+
+        window.handleLogin = async function(e) {
+            e.preventDefault();
+            const identifier = document.getElementById('loginIdentifier').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const data = await managerService.login(identifier, password);
+                if (data.success) {
+                    currentUser = data.user;
+                    showAppView();
+                } else {
+                    alert(data.error || 'Login failed');
+                }
+            } catch (err) {
+                alert('Connection error');
+            }
+        };
+
+        window.handleRegister = async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value.trim();
+            const displayName = document.getElementById('regDisplayName').value.trim();
+            const age = document.getElementById('regAge').value;
+            const weight = document.getElementById('regWeight').value;
+            const height = document.getElementById('regHeight').value;
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+
+            try {
+                const data = await managerService.register({
+                    username,
+                    display_name: displayName,
+                    age,
+                    weight,
+                    height,
+                    email,
+                    password
+                });
+                if (data.success) {
+                    currentUser = data.user;
+                    showAppView();
+                } else {
+                    alert(data.error || 'Registration failed');
+                }
+            } catch (err) {
+                alert('Connection error');
+            }
+        };
+
+        window.logout = function() {
+            managerService.clearAuth();
+            currentUser = null;
+            showAuthView();
+        };
+
+        function showAuthView() {
+            document.getElementById('authView').style.display = 'block';
+            document.getElementById('mainAppView').style.display = 'none';
+            document.getElementById('headerAuthSection').style.display = 'none';
+        }
+
+        function showAppView() {
+            document.getElementById('authView').style.display = 'none';
+            document.getElementById('mainAppView').style.display = 'flex';
+            document.getElementById('headerAuthSection').style.display = 'flex';
+            updateUserBanner();
+            loadMyUserData();
+            checkPrePeriodNotifications();
+        }
+
+        function updateUserBanner() {
+            if (!currentUser) return;
+            const name = currentUser.display_name || currentUser.username;
+            document.getElementById('headerUserName').innerText = name;
+            document.getElementById('bannerWelcomeText').innerText = currentLang === 'ar' 
+                ? `مرحباً بكِ مجدداً، ${name}!` 
+                : `Welcome back, ${name}!`;
+
+            document.getElementById('chatWelcomeMsg').innerHTML = currentLang === 'ar'
+                ? `مرحباً بكِ يا <strong>${name}</strong> يا جميلة! 💕<br>أنا مساعدتكِ وصديقتكِ الصحية. اسأليني عن أي مسكنات آمنة، نصائح للنزيف والتبويض، أو سجلي دورتكِ في أي وقت بكل حب.`
+                : `Hello <strong>${name}</strong>! 💕<br>I am your health companion. Feel free to ask about safe painkillers, flow intensity, or log your cycle details anytime!`;
+        }
+
+        window.switchTab = function(tabId, ev) {
+            document.querySelectorAll('.desktop-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            
+            if (ev) ev.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+
+            if (tabId === 'calendarTab') renderCalendar();
+            if (tabId === 'historyTab' || tabId === 'dashboardTab') loadMyUserData();
+        };
+
+        window.switchMobileNav = function(tabId, btn) {
+            document.querySelectorAll('.mobile-bottom-nav .nav-item').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            
+            btn.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+
+            if (tabId === 'calendarTab') renderCalendar();
+            if (tabId === 'historyTab' || tabId === 'dashboardTab') loadMyUserData();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.loadMyUserData = async function() {
+            try {
+                const ana = await managerService.getAnalytics();
+                if (ana.success) {
+                    userAnalyticsData = ana;
+                    const uDays = ALL_LOCALES[currentLang]?.days || 'أيام';
+                    document.getElementById('bannerUserStats').innerText = currentLang === 'ar'
+                        ? `إجمالي الدورات: ${ana.total_cycles} | متوسط الدورة المرجح: ${ana.avg_cycle_length} ${uDays} | مدة الحيض: ${ana.avg_period_length} ${uDays} ${ana.user_profile.bmi ? '| BMI: ' + ana.user_profile.bmi : ''}`
+                        : `Total: ${ana.total_cycles} | Weighted Cycle: ${ana.avg_cycle_length} ${uDays} | Avg Period: ${ana.avg_period_length} ${uDays} ${ana.user_profile.bmi ? '| BMI: ' + ana.user_profile.bmi : ''}`;
+
+                    document.getElementById('widgetLastDate').innerText = ana.latest_period_date || '—';
+                    document.getElementById('widgetCycleLength').innerText = `${ana.avg_cycle_length} ${uDays}`;
+                    document.getElementById('widgetPeriodLength').innerText = `${ana.avg_period_length} ${uDays}`;
+                    document.getElementById('widgetFlowIntensity').innerText = ana.latest_flow_intensity || (currentLang === 'ar' ? 'متوسط / طبيعي' : 'Medium');
+                    document.getElementById('widgetBmiVal').innerText = ana.user_profile.bmi ? `${ana.user_profile.bmi}` : '—';
+                    document.getElementById('widgetTotalCycles').innerText = ana.total_cycles;
+
+                    const regBadge = document.getElementById('bannerRegularity');
+                    const irregularCard = document.getElementById('irregularSupportCard');
+
+                    if (ana.is_regular) {
+                        regBadge.innerText = ALL_LOCALES[currentLang]?.regularCycle || 'دورة منتظمة ومثالية';
+                        regBadge.className = 'badge badge-gold';
+                        irregularCard.style.display = 'none';
+                    } else {
+                        regBadge.innerText = ALL_LOCALES[currentLang]?.variableCycle || 'تفاوت خفيف في طول الدورة';
+                        regBadge.className = 'badge badge-primary';
+                        irregularCard.style.display = 'block';
+                    }
+
+                    document.getElementById('dashNextDate').innerText = ana.next_period_date || '—';
+                    document.getElementById('dashCountdownText').innerText = ana.days_until_next !== null 
+                        ? (currentLang === 'ar' 
+                            ? (ana.days_until_next > 0 ? `متبقي ${ana.days_until_next} يوم (توقع ذكي مرجح)` : 'موعد الدورة الآن')
+                            : (ana.days_until_next > 0 ? `In ${ana.days_until_next} days (Weighted forecast)` : 'Period is due'))
+                        : (currentLang === 'ar' ? 'سجلي أول دورة لحساب الموعد' : 'Log your first cycle');
+
+                    document.getElementById('dashOvulation').innerText = ana.ovulation_date || '—';
+                    document.getElementById('dashFertileWindow').innerText = ana.fertile_window 
+                        ? (currentLang === 'ar' ? `نافذة الخصوبة: ${ana.fertile_window}` : `Fertile Window: ${ana.fertile_window}`)
+                        : (currentLang === 'ar' ? 'نافذة الخصوبة: —' : 'Fertile Window: —');
+                    document.getElementById('dashTotalCycles').innerText = ana.total_cycles;
+
+                    // Mini table
+                    const miniTbody = document.getElementById('dashMiniTableBody');
+                    if (ana.recent_cycles && ana.recent_cycles.length > 0) {
+                        miniTbody.innerHTML = '';
+                        ana.recent_cycles.forEach(c => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td><span class="badge badge-primary">#${c.id}</span></td>
+                                <td>📅 ${c.last_period_date}</td>
+                                <td><span class="badge badge-gold">${c.cycle_length} ${uDays}</span></td>
+                                <td>${c.period_length} ${uDays}</td>
+                                <td>${c.flow_intensity || 'medium'}</td>
+                                <td>${c.pain_level ? `<span class="badge badge-primary">${c.pain_level}/10</span>` : '—'}</td>
+                                <td>${c.pain_locations || c.ovulation_symptoms || c.symptoms || '—'}</td>
+                            `;
+                            miniTbody.appendChild(tr);
+                        });
+                    }
+
+                    renderCalendar();
+                }
+
+                // Full cycles history table
+                const cycData = await managerService.getCycles();
+                const userTbody = document.getElementById('userCyclesTableBody');
+                if (cycData.success && cycData.cycles && cycData.cycles.length > 0) {
+                    userTbody.innerHTML = '';
+                    const uDays = ALL_LOCALES[currentLang]?.days || 'أيام';
+                    const delLabel = ALL_LOCALES[currentLang]?.deleteBtn || 'حذف';
+                    cycData.cycles.forEach(item => {
+                        const tr = document.createElement('tr');
+                        const createdFormatted = item.created_at ? new Date(item.created_at).toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US') : '—';
+                        tr.innerHTML = `
+                            <td><span class="badge badge-primary">#${item.id}</span></td>
+                            <td>📅 <strong>${item.last_period_date}</strong></td>
+                            <td><span class="badge badge-gold">${item.cycle_length} ${uDays}</span></td>
+                            <td>${item.period_length} ${uDays}</td>
+                            <td>${item.flow_intensity || 'medium'}</td>
+                            <td>${item.pain_level ? `<span class="badge badge-primary">${item.pain_level}/10</span>` : '—'}</td>
+                            <td>${[item.pain_locations, item.ovulation_symptoms, item.symptoms].filter(Boolean).join(' | ') || '—'}</td>
+                            <td style="color: var(--text-secondary); font-size: 0.78rem;">${createdFormatted}</td>
+                            <td>
+                                <button class="btn-delete" onclick="deleteMyCycleRecord(${item.id})">
+                                    ${delLabel}
+                                </button>
+                            </td>
+                        `;
+                        userTbody.appendChild(tr);
+                    });
+                }
+            } catch (err) {}
+        };
+
+        window.sendChatMessage = async function() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            appendMsg(message, 'user');
+            input.value = '';
+
+            const typingText = currentLang === 'ar' ? '🌸 المساعد يكتب لكِ بكل حب...' : '🌸 Writing with care...';
+            const typing = appendMsg(typingText, 'bot');
+
+            try {
+                const data = await managerService.sendChatMessage(message, currentLang);
+                typing.remove();
+
+                if (data.success) {
+                    let cardHtml = data.ai_reply.replace(/\n/g, '<br>');
+                    if (data.saved_record) {
+                        const rec = data.saved_record;
+                        const uDays = ALL_LOCALES[currentLang]?.days || 'أيام';
+                        cardHtml += `
+                            <div class="saved-data-card">
+                                <div class="title">✅ ${currentLang === 'ar' ? 'تم الحفظ في قاعدة بيانات SAFE:' : 'Saved to PostgreSQL SAFE:'}</div>
+                                📅 <strong>${currentLang === 'ar' ? 'تاريخ البداية:' : 'Start Date:'}</strong> ${rec.last_period_date}<br>
+                                🔄 <strong>${currentLang === 'ar' ? 'طول الدورة:' : 'Cycle Length:'}</strong> ${rec.cycle_length} ${uDays}<br>
+                                🩸 <strong>${currentLang === 'ar' ? 'مدة الحيض:' : 'Duration:'}</strong> ${rec.period_length} ${uDays}
+                                ${rec.flow_intensity ? `<br>🩸 <strong>${currentLang === 'ar' ? 'كمية النزيف:' : 'Flow:'}</strong> ${rec.flow_intensity}` : ''}
+                                ${rec.pain_level ? `<br>📊 <strong>${currentLang === 'ar' ? 'مستوى الألم:' : 'Pain Level:'}</strong> ${rec.pain_level}/10` : ''}
+                            </div>
+                        `;
+                        loadMyUserData();
+                        checkPrePeriodNotifications();
+                    }
+                    appendMsg(cardHtml, 'bot', true);
+                }
+            } catch (err) {
+                typing.remove();
+                appendMsg(currentLang === 'ar' ? '❌ خطأ في الاتصال' : '❌ Connection error', 'bot');
+            }
+        };
+
+        window.submitManualEntry = async function(e) {
+            e.preventDefault();
+            const date = document.getElementById('manualDate').value;
+            const cycle = document.getElementById('manualCycle').value;
+            const period = document.getElementById('manualPeriod').value;
+            const painLevel = document.getElementById('painSlider').value;
+            const painLocations = getSelectedChips('locationChipsContainer');
+            const ovulationSymptoms = getSelectedChips('ovulationChipsContainer');
+            const symptoms = document.getElementById('manualSymptoms').value;
+
+            try {
+                const data = await managerService.logCycle({
+                    last_period_date: date,
+                    cycle_length: cycle,
+                    period_length: period,
+                    pain_level: painLevel,
+                    pain_locations: painLocations,
+                    flow_intensity: selectedFlow,
+                    ovulation_symptoms: ovulationSymptoms,
+                    symptoms: symptoms
+                });
+                if (data.success) {
+                    window.showToast(
+                        currentLang === 'ar' ? '✅ تم حفظ الدورة!' : '✅ Cycle Saved!',
+                        currentLang === 'ar' ? 'تم تسجيل تفاصيل الدورة، غزارة النزيف والأعراض بنجاح' : 'Period cycle saved to your private database'
+                    );
+                    loadMyUserData();
+                    checkPrePeriodNotifications();
+                    window.switchTab('calendarTab');
+                } else {
+                    alert(data.error || 'Failed to save');
+                }
+            } catch (err) {
+                alert('Connection error');
+            }
+        };
+
+        window.deleteMyCycleRecord = async function(id) {
+            const confirmMsg = currentLang === 'ar' ? 'هل أنتِ متأكدة من حذف هذه الدورة من حسابكِ؟' : 'Are you sure you want to delete this record?';
+            if (!confirm(confirmMsg)) return;
+            try {
+                const data = await managerService.deleteCycle(id);
+                if (data.success) {
+                    loadMyUserData();
+                    checkPrePeriodNotifications();
+                }
+            } catch (err) {}
+        };
+
+        function appendMsg(content, sender, isHtml = false) {
+            const container = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = `msg-bubble ${sender}`;
+            if (isHtml) div.innerHTML = content; else div.innerText = content;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return div;
+        }
+
+        async function checkAuthSession() {
+            const user = managerService.getUser();
+            if (user) {
+                try {
+                    const data = await managerService.getCurrentUser();
+                    if (data.success && data.user) {
+                        currentUser = data.user;
+                        managerService.setUser(currentUser);
+                        showAppView();
+                        return;
+                    }
+                } catch (err) {}
+            }
+            showAuthView();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('manualDate').value = new Date().toISOString().split('T')[0];
+            setThemeColor(activeColorKey);
+            applyTheme();
+            applyLanguage();
+            checkAuthSession();
+        });
+    </script>
+</body>
+</html>

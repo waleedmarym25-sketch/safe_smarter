@@ -1164,16 +1164,20 @@ app.get('/api/network-info', (req, res) => {
 
 // Catch-all route to serve index.html from client production build
 app.use((req, res) => {
-  const distPath1 = path.join(__dirname, '../client/dist/index.html');
-  const distPath2 = path.join(__dirname, 'client/dist/index.html');
+  const candidates = [
+    path.join(__dirname, 'client/dist/index.html'),
+    path.join(__dirname, '../client/dist/index.html'),
+    path.join(process.cwd(), 'client/dist/index.html'),
+    path.join(__dirname, 'client/index.html'),
+    path.join(process.cwd(), 'client/index.html')
+  ];
   
-  if (fs.existsSync(distPath1)) {
-    res.sendFile(distPath1);
-  } else if (fs.existsSync(distPath2)) {
-    res.sendFile(distPath2);
-  } else {
-    res.sendFile(path.join(__dirname, 'client/index.html'));
+  for (const p of candidates) {
+    if (fs.existsSync(p)) {
+      return res.sendFile(p);
+    }
   }
+  res.sendFile(path.join(__dirname, 'client/index.html'));
 });
 
 // تشغيل السيرفر
@@ -1187,8 +1191,12 @@ pool.connect(async (err) => {
   }
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 خادم SAFE المستقل يعمل ومتاح لجميع الأجهزة:`);
-  console.log(`   ➜ محلياً:    http://localhost:${PORT}`);
-  console.log(`   ➜ على الشبكة: http://192.168.1.20:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 خادم SAFE المستقل يعمل ومتاح لجميع الأجهزة:`);
+    console.log(`   ➜ محلياً:    http://localhost:${PORT}`);
+    console.log(`   ➜ على الشبكة: http://192.168.1.20:${PORT}`);
+  });
+}
+
+module.exports = app;
