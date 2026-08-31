@@ -2556,10 +2556,11 @@ class ManagerService {
 }
 
 
-if (typeof window !== 'undefined') {
-  window.managerService = managerService;
-}
 
+
+
+const managerService = new ManagerService();
+if (typeof window !== 'undefined') { window.managerService = managerService; }
 
 
         let currentLang = localStorage.getItem('safe_lang') || 'ar';
