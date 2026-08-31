@@ -1,0 +1,20 @@
+node_modules/
+.env
+*.log
+.gemini/
+.vscode/
+AppData/
+Contacts/
+Desktop/
+Documents/
+Downloads/
+Favorites/
+Links/
+Music/
+Pictures/
+Saved Games/
+Searches/
+Videos/
+.gitconfig
+NTUSER.DAT*
+ntuser.*
